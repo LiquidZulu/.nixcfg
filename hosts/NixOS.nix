@@ -49,6 +49,9 @@
 
       # Download scripts
       ytdl
+
+      # Fonts
+      fonts
     ])
     ++ [
       #/etc/nixos/hardware-configuration.nix

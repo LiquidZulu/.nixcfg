@@ -1,4 +1,5 @@
 #+TILTE:LiquidZulu's Doom Config
+#+PROPERTY: header-args :tangle config.el
 /This file is best viewed in [[https://www.gnu.org/software/emacs/][emacs]]!/
 
 * Introduction
@@ -7,7 +8,7 @@ This is my config for [[https://github.com/hlissner/doom-emacs][Doom Emacs]]
 ...a configuration framework for GNU Emacs tailored for Emacs bankruptcy veterans who want less framework in their frameworks, a modicum of stability (and reproducibility) from their package manager, and the performance of a hand rolled config (or better). It can be a foundation for your own config or a resource for Emacs enthusiasts to learn more about our favorite operating system.
 #+end_quote
 ** Modifying this config
-=README.org= contains a number of source blocks that may be modified at will, =config.el= will automatically load all elisp source contained in =README.org=.
+=README.org= contains a number of source blocks that may be modified at will, then do a local refresh (=C-c C-c=) and run =org-babel-tangle= (=C-c C-v t=) with the point on the above =#+PROPERTY= tag.
 ** Why Doom?
 You will notice from a perusing of =init.el= that I have disabled [[https://www.emacswiki.org/emacs/Evil][Evil Mode]], so I am clearly not on Doom for the vi bindings. I use Doom for the speed and to avoid bankruptcy --- vanilla bindings are good enough in most areas though I have modified the movement to make sense on Colemak-DHm.
 
@@ -161,7 +162,7 @@ Sets inline images to be 500 wide
 #+end_src
 ** Theme
 #+begin_src elisp
-        (setq doom-theme 'doom-copper)
+(setq doom-theme 'doom-one)
 #+end_src
 
 ** custom-set-faces
@@ -183,19 +184,14 @@ Sets inline images to be 500 wide
 *** Font-Family
 #+begin_src elisp
 (setq
- doom-font      (font-spec :family "Mononoki" :size 24)
- doom-big-font  (font-spec :family "Mononoki" :size 36))
+ doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
+ doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
 #+end_src
 ** Org settings
 *** headline levels
 Makes it so that I can style exported html, no clue why it isn't higher by default.
 #+begin_src elisp
 (setq org-export-headline-levels 512)
-#+end_src
-*** org-directory
-I don't want all of my orgfiles on my c drive, I like to keep them here
-#+begin_src elisp
-(setq org-directory "e:/emacs/documents/notes/org")
 #+end_src
 *** image settings
 Display images on startup
@@ -256,7 +252,43 @@ Blah
   (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
   (set-face-attribute 'show-paren-mismatch nil :weight 'extra-bold))
 #+end_src
-
+** Splashpage
+*** Remove function menu
+Remove the dashboard functions for a more minimal look. See [[https://discourse.doomemacs.org/t/how-to-change-your-splash-screen/57][here]] for details on customising the splashpage.
+#+begin_src elisp
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+#+end_src
+*** Maximise frame on load
+https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
+#+begin_src elisp
+(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
+#+end_src
+* Custom Commands
+** Goto Config
+#+begin_src elisp
+(defun conf ()
+  "Go to config"
+  (interactive)
+  (dired "~/.nixcfg/users/profiles/doom/doom.d"))
+#+end_src
+** YouTube scripts
+#+begin_src elisp
+(defun yt ()
+  "Go to yt scripts"
+  (interactive)
+  (dired "~/Documents/youtube-scripts"))
+(defun course ()
+  "Go to course scripts"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/courses"))
+#+end_src
+** Notes
+#+begin_src elisp
+(defun notes ()
+  "Go to yt scripts"
+  (interactive)
+  (dired "~/Documents/notes"))
+#+end_src
 * Key Mapping
 I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layout can be found [[https://configure.ergodox-ez.com/ergodox-ez/layouts/BO06w/latest/0][here]] -- so remapping of certain core keys, namely motion keys, is required for ergonomics and ease of use.
 #+begin_src elisp
@@ -304,7 +336,7 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
 
  "C-M-s-<backspace>" #'(lambda () (interactive) (beginning-of-line) (org-delete-backward-char 1) (org-self-insert-command))
 
- "C-M-s-b" #'ibuffer
+ "s-b" #'ibuffer
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 
@@ -317,24 +349,6 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
  )
 #+end_src
 
-* Maximising Frame on Windows
-Pretty sure this is done by
-#+begin_src elisp
-(if (eq initial-window-system 'x)       ; if started by emacs command or desktop file
-    (toggle-frame-maximized))
-#+end_src
-on linux but adding this
-#+begin_src elisp
-(defun maximize-frame ()
-  "Maximizes the active frame in Windows"
-  (interactive)
-  ;; Send a `WM_SYSCOMMAND' message to the active frame with the
-  ;; `SC_MAXIMIZE' parameter.
-  (when (eq system-type 'windows-nt)
-    (w32-send-sys-command 61488)))
-(add-hook 'window-setup-hook 'maximize-frame t)
-#+end_src
-makes it work on win 10.
 * Major modes
 #+begin_src elisp
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
@@ -348,71 +362,6 @@ I basically only use UTF-8 so it takes up space for no reason most of the time.
                           (eq buffer-file-coding-system 'utf-8)))))
 (add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 #+end_src
-* Default Preambles
-** Add Default Preamble to New Orgmode Files
-I dont like to type out all that crap on my own
-#+begin_src elisp
-(setq
- org-css "file:///e:/emacs/documents/org-css/css/org.css")
-(setq
- org-preamble (format
-               "#+TITLE:\n#+AUTHOR:LiquidZulu\n#+BIBLIOGRAPHY:e:/Zotero/library.bib\n#+PANDOC_OPTIONS: csl:e:/Zotero/styles/australasian-physical-and-engineering-sciences-in-medicine.csl\n#+HTML_HEAD:<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\"/>\n#+OPTIONS: ^:{}\n#+begin_comment\n/This file is best viewed in [[https://www.gnu.org/software/emacs/][emacs]]!/\n#+end_comment"
-               org-css))
-
-(add-hook 'find-file-hook
-          (lambda ()
-            (if
-                (string=
-                 (substring
-                  (buffer-name)
-                  (if (> (length (buffer-name)) 3) (- (length (buffer-name)) 3) 0)
-                  nil)
-                 "org")
-                (if
-                    (=
-                     (buffer-size)
-                     0)
-                    ((lambda ()
-                       (insert org-preamble)
-
-                                        ; navigate point to end of #+TITLE:, doesnt work when launching from gitbash for some reason, point just moves right back down after doom does something
-                       (goto-line 1)
-                       (forward-word)
-                       (forward-char)))))))
-#+end_src
-
-*** Automatically update the #+DATE
-#+begin_src elisp
-; ¯\_(ツ)_/¯
-; TODO I think the relevant search term for #+FOO: is keyword but cant find any function that edits them nice and simple, if not ill need to search for it manually which will be a massive pain
-#+end_src
-** Add Default Preamble to New Markdown Files
-Similar to above, I like docusaurus
-#+begin_src elisp
-(setq
- md-preamble
- "---\nslug:\ntitle:\nauthor: Liquidzulu\nauthor_title: Anarcho-Capitalist YouTuber\nauthor_url: https://www.youtube.com/channel/UCTf0py7ryuSldOsDm4abSsg\nauthor_image_url: https://yt3.ggpht.com/ytc/AAUvwngTBrwImrEHOckgvAV4I45tRm4-lPRC-X0KvsAT9w=s176-c-k-c0x00ffffff-no-rj\ntags: []\n---")
-
-(add-hook 'find-file-hook
-          (lambda ()
-            (if
-                (string=
-                 (substring
-                  (buffer-name)
-                  (if (> (length (buffer-name)) 3) (- (length (buffer-name)) 3) 0)
-                  nil)
-                 "mdx")
-                (if
-                    (=
-                     (buffer-size)
-                     0)
-                    ((lambda ()
-                       (insert md-preamble)
-
-                       (goto-line 2)
-                       (forward-word)
-                       (forward-char)))))))
-#+end_src
 * Babel Settings
 ** Languages
 #+begin_src elisp
@@ -423,403 +372,6 @@ Similar to above, I like docusaurus
         (js . t)))
 #+end_src
 * Package Config
-** circe
-*** Login Config
-Keeping my passwords out of my public config.
-#+begin_src elisp
-(setq my-credentials-file "~/.private.el")
-#+end_src
-
-As it is a function, the plaintext wont appear in stack traces.
-#+begin_src elisp
-(defun freenode-password (server)
-  (with-temp-buffer
-    (insert-file-contents-literally my-credentials-file)
-    (plist-get (read (buffer-string)) :freenode-password)))
-#+end_src
-
-**** circe-network-options
-#+begin_src elisp
-(setq circe-network-options
-      '(("Freenode" :host "chat.freenode.net" :port (6667 . 6697)
-         :tls t
-         :nick "LiquidZulu"
-         :sasl-username "LiquidZulu"
-         :sasl-password freenode-password
-         :channels (
-                    "#philosophy"
-                    "#idleRPG"
-                    "#physics"
-                    "#science"
-                    "#emacs"
-                    "#"
-                    )
-
-         )))
-#+end_src
-
-*** Tab Completion
-Circe uses Emacs' built-in completion support by default which opens a window with candidates you can select with the mouse. It is possible to enable a more traditional inline variant in Emacs 24.1 or newer:
-#+begin_src elisp
-(setq circe-use-cycle-completion t)
-#+end_src
-
-*** Quick IRC Command
-Circe intends this for use if you have multiple networks that you connect to, but I use it mostly because I keep mistyping circe as cirxe or xirce.
-#+begin_src elisp
-(defun circe-network-connected-p (network)
-  "Return non-nil if there's any Circe server-buffer whose
-`circe-server-netwok' is NETWORK."
-  (catch 'return
-    (dolist (buffer (circe-server-buffers))
-      (with-current-buffer buffer
-        (if (string= network circe-server-network)
-            (throw 'return t))))))
-
-(defun circe-maybe-connect (network)
-  "Connect to NETWORK, but ask user for confirmation if it's
-already been connected to."
-  (interactive "sNetwork: ")
-  (if (or (not (circe-network-connected-p network))
-          (y-or-n-p (format "Already connected to %s, reconnect?" network)))
-      (circe network)))
-
-(defun irc ()
-  "Connect to IRC"
-  (interactive)
-  (circe-maybe-connect "Freenode"))
-#+end_src
-
-*** Formatting
-**** Format Strings
-***** Says
-The format for normal channel or query talk.
-+ nick - The nick talking.
-+ body - The message.
-#+begin_src elisp
-(setq circe-format-say "<{nick}> {body}")
-#+end_src
-
-The format for messages to queries or channels.
-+ nick - Your nick.
-+ body - The body of the message.
-#+begin_src elisp
-(setq circe-format-self-say "<{nick}> {body}")
-#+end_src
-
-***** Messages
-The format for normal channel or query talk.
-+ nick - The nick talking.
-+ body - The message.
-#+begin_src elisp
-(setq circe-format-message "<{nick}> → <{chattarget}>: {body}")
-#+end_src
-
-The format for messages sent to other people outside of queries.
-+ chattarget - The target nick.
-+ body - The body of the message.
-#+begin_src elisp
-(setq circe-format-self-message "<{nick}> → <{chattarget}>: {body}")
-#+end_src
-
-***** Actions
-The format for actions in queries or channels.
-+ nick - The nick doing the action.
-+ body - The body of the action.
-#+begin_src elisp
-(setq circe-format-action "* <{nick}> {body}")
-#+end_src
-
-The format for actions to queries or channels.
-+ nick - Your nick.
-+ body - The body of the action.
-#+begin_src elisp
-(setq circe-format-self-action "* <{nick}> {body}")
-#+end_src
-
-The format for actions in messages outside of queries.
-+ nick - The nick doing the action.
-+ body - The body of the action.
-#+begin_src elisp
-(setq circe-format-message-action "* <{nick}> {body}")
-#+end_src
-
-***** Buffer Name
-The format for buffer names.
-+ target  - The target of the buffer.
-+ network - The name of the network.
-#+begin_src elisp
-(setq circe-chat-buffer-name "{target}")
-#+end_src
-
-The format for the server buffer name.
-+ network - The name of the network
-+ host    - The host name of the server
-+ port    - The port number or service name
-+ service - Alias for port
-#+begin_src elisp
-(setq circe-server-buffer-name "{host}:{port}")
-#+end_src
-
-***** Notices
-The format for a notice.
-+ nick - The originator.
-+ body - The notice.
-#+begin_src elisp
-(setq circe-format-notice "-{nick}- {body}")
-#+end_src
-
-The format for a server notice.
-+ body - The notice.
-#+begin_src elisp
-(setq circe-format-server-notice "--SERVER-- {body}")
-#+end_src
-
-***** Topic
-The format for topic changes.
-+ nick       - The nick of the user who changed the topic
-+ userhost   - The user@host string of that user
-+ channel    - Where the topic change happened
-+ new-topic  - The new topic
-+ old-topic  - The previous topic
-+ topic-diff - A colorized diff of the topics
-#+begin_src elisp
-(setq circe-format-server-topic "*** Topic change by {nick} ({userhost}): {old-topic} → {new-topic} | {topic-diff}")
-#+end_src
-
-***** Lurkers
-The format for the first-activity notice of a user.
-+ nick      - The originator.
-+ jointime  - The join time of the user (in seconds).
-+ joindelta - The duration from joining until now.
-#+begin_src elisp
-(setq circe-format-server-lurker-activity "*** First activity: {nick} joined {joindelta} ago ({jointime}).")
-#+end_src
-
-***** Joins
-Format for join messages in a channel buffer.
-+ nick         - The nick of the user joining
-+ userhost     - The user@host string for the user
-+ accountname  - The account name, if the server supports this
-+ realname     - The real name, if the server supports this
-+ userinfo     - A combination of userhost, accountname, and realname
-+ channel      - The channel this user is joining
-#+begin_src elisp
-(setq circe-format-server-join "*** Join: {nick} ({userinfo})")
-#+end_src
-
-Format for join messages in query buffers of the joining user.
-+ nick         - The nick of the user joining
-+ userhost     - The user@host string for the user
-+ accountname  - The account name, if the server supports this
-+ realname     - The real name, if the server supports this
-+ userinfo     - A combination of userhost, accountname, and realname
-+ channel      - The channel this user is joining"
-#+begin_src elisp
-(setq circe-format-server-join-in-channel "*** Join: {nick} ({userinfo}) joined {channel}")
-#+end_src
-
-Format for mode changes.
-+ setter       - The name of the split, usually describing the servers involved
-+ userhost     - The user@host string for the user
-+ target       - The target of this mode change
-+ change       - The actual changed modes"
-#+begin_src elisp
-(setq circe-format-server-rejoin "*** Re-join: {nick} ({userinfo}), left {departuredelta} ago ({departuretime}).")
-#+end_src
-
-***** Whois Idle
-Format for RPL_WHOISIDLE messages.
-+ whois-nick      - The nick this is about
-+ idle-seconds    - The number of seconds this nick has been idle
-+ idle-duration   - A textual description of the duration of the idle time
-+ signon-time     - The time (in seconds since the epoch) when this user signed on
-+ signon-date     - A date string describing this time
-+ signon-ago      - A textual description of the duraction since signon
-#+begin_src elisp
-(setq circe-format-server-whois-idle-with-signon "*** {whois-nick} is {idle-duration} idle (signon on {signon-date}, {signon-ago} ago)")
-#+end_src
-
-Format for RPL_WHOISIDLE messages.
-+ whois-nick      - The nick this is about
-+ idle-seconds    - The number of seconds this nick has been idle
-+ idle-duration   - A textual description of the duration of the idle time
-#+begin_src elisp
-(setq circe-format-server-whois-idle "*** {whois-nick} is {idle-duration} idle")
-#+end_src
-
-***** Topic
-Format for RPL_TOPICWHOTIME messages for the current channel.
-+ channel         - The channel the topic is for
-+ setter          - The nick of the person who set the topic
-+ setter-userhost - The user@host string of the person who set the topic
-+ topic-time      - The time the topic was set, in seconds since the epoch
-+ topic-date      - A date string describing this time
-+ topic-ago       - A textual description of the duration since the topic was set
-#+begin_src elisp
-(setq circe-format-server-topic-time "*** Topic set by {setter} on {topic-date}, {topic-ago} ago")
-#+end_src
-
-Format for RPL_TOPICWHOTIME messages for a channel we are not on.
-+ channel         - The channel the topic is for
-+ setter          - The nick of the person who set the topic
-+ setter-userhost - The user@host string of the person who set the topic
-+ topic-time      - The time the topic was set, in seconds since the epoch
-+ topic-date      - A date string describing this time
-+ topic-ago       - A textual description of the duration since the topic was set
-#+begin_src elisp
-(setq circe-format-server-topic-time-for-channel "*** Topic for {channel} set by {setter} on {topic-date}, {topic-ago} ago")
-#+end_src
-
-***** Channel Creation
-Format for RPL_CREATIONTIME messages for the current channel.
-+ channel  - The channel the topic is for
-+ date     - A date string describing this time
-+ ago      - A textual description of the duration since the channel was created
-#+begin_src elisp
-(setq circe-format-server-channel-creation-time "*** Channel {channel} created on {date}, {ago} ago")
-#+end_src
-
-***** CCTP
-Format for CTCP requests.
-+ nick      - The nick of the user who sent this PING request
-+ userhost  - The user@host string of the user who sent this request
-+ target    - The target of the message, usually us, but can be a channel
-+ body      - The argument of the PING request, usually a number
-+ ago       - A textual description of the duration since the request was sent, if parseable
-#+begin_src elisp
-(setq circe-format-server-ctcp "*** CTCP {command} request from {nick} ({userhost}) to {target}: {body}")
-#+end_src
-
-Format for CTCP PING requests.
-+ nick      - The nick of the user who sent this PING request
-+ userhost  - The user@host string of the user who sent this request
-+ target    - The target of the message, usually us, but can be a channel
-+ command   - The CTCP command used
-+ body      - The argument of the PING request, usually a number
-#+begin_src elisp
-(setq circe-format-server-ctcp-ping "*** CTCP PING request from {nick} ({userhost}) to {target}: {body} ({ago} ago)")
-#+end_src
-
-Format for CTCP PING replies.
-+ nick      - The nick of the user who sent this PING request
-+ userhost  - The user@host string of the user who sent this request
-+ target    - The target of the message, usually us, but can be a channel
-+ body      - The argument of the PING request, usually a number
-+ ago       - A textual description of the duration since the request was sent, if parseable
-#+begin_src elisp
-(setq circe-format-server-ctcp-ping-reply "*** CTCP PING reply from {nick} ({userhost}) to {target}: {ago} ago ({body})")
-#+end_src
-
-***** Net(split/merge)
-Format for netsplit notifications.
-+ split - The name of the split, usually describing the servers involved
-#+begin_src elisp
-(setq circe-format-server-netsplit "*** Netsplit: {split} (Use /WL to see who left)")
-#+end_src
-
-Format for netmerge notifications.
-+ split   - The name of the split, usually describing the servers involved
-+ time    - The time when this split happened, in seconds
-+ date    - A date string describing this time
-+ ago     - A textual description of the duration since the split happened
-#+begin_src elisp
-(setq circe-format-server-netmerge "*** Netmerge: {split}, split {ago} ago (Use /WL to see who's still missing)")
-#+end_src
-
-***** Server Mode Change
-Format for mode changes.
-+ setter       - The name of the split, usually describing the servers involved
-+ userhost     - The user@host string for the user
-+ target       - The target of this mode change
-+ change       - The actual changed modes
-#+begin_src elisp
-(setq circe-format-server-mode-change "*** Mode change: {change} on {target} by {setter} ({userhost})")
-#+end_src
-
-***** Nickname Change
-Format for nick changes of the current user.
-+ old-nick - The old nick this change was from
-+ new-nick - The new nick this change was to
-+ userhost - The user@host string for the user
-#+begin_src elisp
-(setq circe-format-server-nick-change-self "*** Nick change: You are now known as {new-nick}")
-#+end_src
-
-Format for nick changes of other users.
-+ old-nick - The old nick this change was from
-+ new-nick - The new nick this change was to
-+ userhost - The user@host string for the user
-#+begin_src elisp
-(setq circe-format-server-nick-change "*** Nick change: {old-nick} ({userhost}) is now known as {new-nick}")
-#+end_src
-
-Format nickname regains.
-+ old-nick - The old nick this change was from
-+ new-nick - The new nick this change was to
-+ userhost - The user@host string for the user
-#+begin_src elisp
-(setq circe-format-server-nick-regain "*** Nick regain: {old-nick} ({userhost}) is now known as {new-nick}")
-#+end_src
-
-***** Server Quit // Channel Quit/Part
-Format for users parting a channel.
-+ nick     - The nick of the user who left
-+ userhost - The user@host string for this user
-+ channel  - The channel they left
-+ reason   - The reason they gave for leaving
-#+begin_src elisp
-(setq circe-format-server-part "*** Part: {nick} ({userhost}) left {channel}: {reason}")
-#+end_src
-
-Format for users quitting from a channel.
-+ nick     - The nick of the user who left
-+ userhost - The user@host string for this user
-+ channel  - The channel they left
-+ reason   - The reason they gave for leaving
-#+begin_src elisp
-(setq circe-format-server-quit-channel "*** Quit: {nick} ({userhost}) left {channel}: {reason}")
-#+end_src
-
-Format for users quitting.
-+ nick     - The nick of the user who left
-+ userhost - The user@host string for this user
-+ reason   - The reason they gave for leaving
-#+begin_src elisp
-(setq circe-format-server-quit "*** Quit: {nick} ({userhost}) left IRC: {reason}")
-#+end_src
-
-**** Timestamps in Margins
-Emacs 23 added a feature called 'margins' which lets you have annotations in a margin area to the right or left of a buffer. Circe is able to put the timestamps in this area. Below is an example of how to do this. Note that in addition to telling Circe to use margins, you also need to tell emacs to turn on margins for your circe buffers.
-#+begin_src elisp
-(setq
- lui-time-stamp-position 'right-margin
- lui-time-stamp-format "%H:%M")
-
-(add-hook 'lui-mode-hook 'my-circe-set-margin)
-(defun my-circe-set-margin ()
-  (setq right-margin-width 5))
-#+end_src
-
-**** Fluid-Width Windows
-Thanks to several interesting emacs features, Lui buffers can be made to dynamically fit arbitrary window sizes without turning ugly, even with right-aligned time-stamps. For this, put right-aligned time-stamps into the margin, preferably enable =fringes-outside-margins=, disable filling, enable word wrapping, and set =wrap-prefix= to a preferred value, e.g. the string you had in =lui-fill-type=. (The non-string values accepted in =lui-fill-type= are sadly not accepted here.)
-#+begin_src elisp
-(setq
- lui-time-stamp-position 'right-margin
- lui-fill-type nil)
-
-(add-hook 'lui-mode-hook 'my-lui-setup)
-(defun my-lui-setup ()
-  (setq
-   fringes-outside-margins t
-   right-margin-width 5
-   word-wrap t
-   wrap-prefix "    "))
-#+end_src
-On a graphical display, emacs will display continuation indicators in the fringe by default when word-wrap is enabled. These can be disabled by adding the following form to the above my-lui-setup function.
-#+begin_src elisp
-(setf (cdr (assoc 'continuation fringe-indicator-alist)) nil)
-#+end_src
 
 ** ox-json
 #+begin_src elisp
@@ -829,102 +381,4 @@ On a graphical display, emacs will display continuation indicators in the fringe
 ~For tables of contents within orgmode so I dont have to look at md anymore~ This didnt work and was fairly bloaty, no clue what went wrong hopefully I can fix at some point
 #+begin_src elisp
                                         ;(add-hook 'org-mode-hook #'org-make-toc-mode) ; automatically update toc
-#+end_src
-** org-ref
-~org-ref is necessary for writing of any sort of academic material in emacs, makes citations a lot easier.~ I just use the built in =org-footnote-action=,  now, which I bind to =C-;=. Might go back to this at some point, maybe if I fix my LaTeX compiler.
-#+begin_src elisp
-(use-package! org-ref
-    :after org
-    :init
-    ; code to run before loading org-ref
-    :config
-    ; code to run after loading org-ref
-    )
-(setq
-      ;org-ref-notes-directory (concatenate 'string org-directory "/org-ref")
-      org-ref-default-bibliography '("e:/Zotero/library.bib")
-      org-ref-pdf-directory "e:/Zotero/pdfs")
-
-(after! org
-  (add-to-list 'org-capture-templates
-               '(("a"               ; key
-                  "Article"         ; name
-                  entry             ; type
-                  ;(file+headline (concatenate 'string org-directory "/foo.org) "Article")  ; target
-                  "\* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %a\n:END:\n%i\nBrief description:\n%?"  ; template
-
-                  :prepend t        ; properties
-                  :empty-lines 1    ; properties
-                  :created t        ; properties
-))) )
-#+end_src
-** helm-bibtex
-Helm BibTeX is a package that allows for searching through BibTeX bibliographies.
-#+begin_src elisp
-(use-package! helm-bibtex
-  :after org
-  :init
-  ; blah blah
-  :config
-  ;blah blah
-  )
-
-(setq bibtex-format-citation-functions
-      '((org-mode . (lambda (x) (insert (concat
-                                         "\\cite{"
-                                         (mapconcat 'identity x ",")
-                                         "}")) ""))))
-(setq
-      bibtex-completion-pdf-field "file"
-      bibtex-completion-bibliography
-      '("e:/Zotero/library.bib")
-      bibtex-completion-library-path '("e:/Zotero/")
-     ; bibtex-completion-notes-path "~/Dropbox/Org/references/articles.org"  ;; not needed anymore as I take notes in org-roam
-      )
-#+end_src
-
-* Open Buffers Upon Launch
-I want to have my buffer list populated with oft-used files so that I dont have to open them by hand with dired every time.
-
-/Note: the further down the file is opened the higher it will appear in the ibuffer menu./
-** zulu-open-directory
-#+begin_src elisp
-(defun zulu-open-directory-looper (list dir)
-  "A helper function for zulu-open-directory containing the loop logic"
-  (while list
-    (dired (concat dir "/" (car list)))
-    (setq list (cdr list))))
-(defun zulu-open-directory (dir)
-"Opens all level-1 subfolders in (dir) as dired buffers."
-(zulu-open-directory-looper (directory-files dir) dir))
-#+end_src
-
-#+RESULTS:
-: zulu-open-directory
-
-** IRC
-See: [[Quick IRC Command]].
-#+begin_src elisp
-(irc)
-#+end_src
-** Documents
-#+begin_src elisp
-(zulu-open-directory "e:/emacs/documents/youtube-scripts/scripts")
-(zulu-open-directory "e:/emacs/documents/notes/org")
-(zulu-open-directory "e:/emacs/documents/agenda")
-#+end_src
-** Config Files
-#+begin_src elisp
-(find-file "~/.doom.d/README.org")
-#+end_src
-** Splash Screen
-This is where I make my custom splash screen, I put it at the end so that it opens last. See [[https://github.com/hlissner/doom-emacs/issues/2204][this issue]], and [[https://github.com/tecosaur/emacs-config/blob/master/config.org#splash-screen][this repo]] ([[https://github.com/tecosaur/emacs-config/blob/46a5ffdc92728cb03e61987b9f4de04a87c4dc5d/config.org][this branch specifically]]) for my inspo.
-*** Making The Splash Screen
-#+begin_src elisp
-(setq fancy-splash-image (expand-file-name "misc/splash-images/blackhole-lines.png" doom-private-dir))
-#+end_src
-
-*** Switching To It
-#+begin_src elisp
-(switch-to-buffer "*doom*")
 #+end_src
