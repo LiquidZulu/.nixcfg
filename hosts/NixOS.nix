@@ -14,6 +14,7 @@
       # File editing
       editing.gimp
       editing.writing
+      editing.kdenlive
 
       # Anything to do with git, except git itself which is users.profiles.git
       git.github-desktop
@@ -34,8 +35,10 @@
       # File browser(s)
       dolphin
 
-      # Screenshot tool
+      # Media recording/playback
       flameshot
+      obs
+      vlc
 
       # Run launcher
       launcher
@@ -52,6 +55,10 @@
 
       # Fonts
       fonts
+
+      # Build tools
+      tools.cmake
+      tools.libtool
     ])
     ++ [
       #/etc/nixos/hardware-configuration.nix

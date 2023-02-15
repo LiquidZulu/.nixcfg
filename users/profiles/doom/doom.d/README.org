@@ -271,7 +271,7 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   (interactive)
   (dired "~/.nixcfg/users/profiles/doom/doom.d"))
 #+end_src
-** YouTube scripts
+** Goto YouTube scripts
 #+begin_src elisp
 (defun yt ()
   "Go to yt scripts"
@@ -282,7 +282,7 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   (interactive)
   (dired "~/Documents/youtube-scripts/courses"))
 #+end_src
-** Notes
+** Goto Notes
 #+begin_src elisp
 (defun notes ()
   "Go to yt scripts"
@@ -337,6 +337,7 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
  "C-M-s-<backspace>" #'(lambda () (interactive) (beginning-of-line) (org-delete-backward-char 1) (org-self-insert-command))
 
  "s-b" #'ibuffer
+ "s-v" #'vterm
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 
@@ -352,6 +353,7 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
 * Major modes
 #+begin_src elisp
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 #+end_src
 * Only Show Encoding When Not UTF-8
 I basically only use UTF-8 so it takes up space for no reason most of the time.

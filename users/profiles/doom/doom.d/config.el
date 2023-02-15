@@ -164,7 +164,7 @@
 
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
-(add-hook 'window-setup-hook #'toggle-frame-maximized)
+(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
 
 (defun conf ()
   "Go to config"
@@ -229,7 +229,7 @@
 
  "C-M-s-<backspace>" #'(lambda () (interactive) (beginning-of-line) (org-delete-backward-char 1) (org-self-insert-command))
 
- "C-M-s-b" #'ibuffer
+ "s-b" #'ibuffer
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 
@@ -242,6 +242,7 @@
  )
 
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 
 (defun doom-modeline-conditional-buffer-encoding ()
   (setq-local doom-modeline-buffer-encoding

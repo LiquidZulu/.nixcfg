@@ -50,6 +50,8 @@
 ;(unpin! t)
 
 (package! org-ref)
+(package! vterm)
+(package! nix-mode)
 (package! helm-bibtex)
 ;(package! color)
 ;(package! paren)
