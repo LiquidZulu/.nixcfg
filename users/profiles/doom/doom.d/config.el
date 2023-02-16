@@ -164,12 +164,22 @@
 
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
-(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 (defun conf ()
   "Go to config"
   (interactive)
   (dired "~/.nixcfg/users/profiles/doom/doom.d"))
+
+(defun sysconf ()
+  "Go to system config"
+  (interactive)
+  (dired "~/.nixcfg"))
+
+(defun home ()
+  "Go to home"
+  (interactive)
+  (dired "~"))
 
 (defun yt ()
   "Go to yt scripts"
@@ -185,9 +195,9 @@
   (interactive)
   (dired "~/Documents/notes"))
 
-(setq w32-apps-modifier 'hyper)
-(setq w32-lwindow-modifier 'super)
-(setq w32-rwindow-modifier 'hyper)
+;(setq w32-apps-modifier 'hyper)
+;(setq w32-lwindow-modifier 'super)
+;(setq w32-rwindow-modifier 'hyper)
 (setq zulu-scroll-amount 5)
 
 (map!
@@ -204,32 +214,14 @@
  "M-m"          #'(lambda () (interactive) (dotimes (i zulu-scroll-amount) (scroll-up-line)))
  "M-j"          #'(lambda () (interactive) (dotimes (i zulu-scroll-amount) (scroll-down-line)))
 
- "C-M-s-l"      #'(lambda () (interactive) (previous-line) (beginning-of-line))
- "C-M-s-u"      #'(lambda () (interactive) (next-line)     (end-of-line))
- "C-M-s-n"      #'backward-paragraph
- "C-M-s-e"      #'forward-paragraph
-
- "C-;"          #'(lambda () (interactive) (footnote-template) (org-footnote-action))
-
- "C-M-s-d"      #'centaur-tabs-backward
- "C-M-s-v"      #'centaur-tabs-forward
- "C-M-s-t"      #'centaur-tabs-select-beg-tab
- "C-M-s-g"      #'centaur-tabs-select-end-tab
- "C-M-s-k"      #'centaur-tabs--kill-this-buffer-dont-ask
-
- "C-x t t"      #'treemacs
+ "C-f"          #'org-footnote-action
 
  "C-c i i"      #'(lambda () (interactive) (insert "#+CAPTION:\n#+NAME:\n[[./images]]") (backward-char) (backward-char) "Insert image")  ; "insert image"
  "C-C i t r"    #'org-table-create-or-convert-from-region
  "C-C i t e"    #'org-table-create-with-table.el
 
- "C-M-s-x r i"      #'org-toggle-inline-images  ; "render image"
- "C-M-s-x p p j a"  #'json-pretty-print-buffer-ordered
- "C-M-s-x p p j r"  #'json-pretty-print-ordered
-
- "C-M-s-<backspace>" #'(lambda () (interactive) (beginning-of-line) (org-delete-backward-char 1) (org-self-insert-command))
-
  "s-b" #'ibuffer
+ "s-v" #'vterm
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 

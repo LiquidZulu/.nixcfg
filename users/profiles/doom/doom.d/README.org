@@ -261,16 +261,32 @@ Remove the dashboard functions for a more minimal look. See [[https://discourse.
 *** Maximise frame on load
 https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
 #+begin_src elisp
-(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
 #+end_src
 * Custom Commands
-** Goto Config
+** Goto Doom Config
 #+begin_src elisp
 (defun conf ()
   "Go to config"
   (interactive)
   (dired "~/.nixcfg/users/profiles/doom/doom.d"))
 #+end_src
+** Goto System Config
+#+begin_src elisp
+(defun sysconf ()
+  "Go to system config"
+  (interactive)
+  (dired "~/.nixcfg"))
+#+end_src
+
+** Goto Home
+#+begin_src elisp
+(defun home ()
+  "Go to home"
+  (interactive)
+  (dired "~"))
+#+end_src
+
 ** Goto YouTube scripts
 #+begin_src elisp
 (defun yt ()
@@ -292,9 +308,9 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
 * Key Mapping
 I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layout can be found [[https://configure.ergodox-ez.com/ergodox-ez/layouts/BO06w/latest/0][here]] -- so remapping of certain core keys, namely motion keys, is required for ergonomics and ease of use.
 #+begin_src elisp
-(setq w32-apps-modifier 'hyper)
-(setq w32-lwindow-modifier 'super)
-(setq w32-rwindow-modifier 'hyper)
+;(setq w32-apps-modifier 'hyper)
+;(setq w32-lwindow-modifier 'super)
+;(setq w32-rwindow-modifier 'hyper)
 (setq zulu-scroll-amount 5)
 
 (map!
@@ -311,30 +327,11 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
  "M-m"          #'(lambda () (interactive) (dotimes (i zulu-scroll-amount) (scroll-up-line)))
  "M-j"          #'(lambda () (interactive) (dotimes (i zulu-scroll-amount) (scroll-down-line)))
 
- "C-M-s-l"      #'(lambda () (interactive) (previous-line) (beginning-of-line))
- "C-M-s-u"      #'(lambda () (interactive) (next-line)     (end-of-line))
- "C-M-s-n"      #'backward-paragraph
- "C-M-s-e"      #'forward-paragraph
-
- "C-;"          #'(lambda () (interactive) (footnote-template) (org-footnote-action))
-
- "C-M-s-d"      #'centaur-tabs-backward
- "C-M-s-v"      #'centaur-tabs-forward
- "C-M-s-t"      #'centaur-tabs-select-beg-tab
- "C-M-s-g"      #'centaur-tabs-select-end-tab
- "C-M-s-k"      #'centaur-tabs--kill-this-buffer-dont-ask
-
- "C-x t t"      #'treemacs
+ "C-f"          #'org-footnote-action
 
  "C-c i i"      #'(lambda () (interactive) (insert "#+CAPTION:\n#+NAME:\n[[./images]]") (backward-char) (backward-char) "Insert image")  ; "insert image"
  "C-C i t r"    #'org-table-create-or-convert-from-region
  "C-C i t e"    #'org-table-create-with-table.el
-
- "C-M-s-x r i"      #'org-toggle-inline-images  ; "render image"
- "C-M-s-x p p j a"  #'json-pretty-print-buffer-ordered
- "C-M-s-x p p j r"  #'json-pretty-print-ordered
-
- "C-M-s-<backspace>" #'(lambda () (interactive) (beginning-of-line) (org-delete-backward-char 1) (org-self-insert-command))
 
  "s-b" #'ibuffer
  "s-v" #'vterm

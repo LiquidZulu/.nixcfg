@@ -1,68 +1,59 @@
-{ 
-  config, 
-  lib, 
-  pkgs, 
-  suites, 
-  profiles,
-  ... 
-}: {
+{ config, lib, pkgs, suites, profiles, ... }: {
 
-  imports = 
-    suites.base
-    ++ (with profiles; [
+  imports = suites.base ++ (with profiles; [
 
-      # File editing
-      editing.gimp
-      editing.writing
-      editing.kdenlive
+    # File editing
+    editing.gimp
+    editing.writing
+    editing.kdenlive
 
-      # Anything to do with git, except git itself which is users.profiles.git
-      git.github-desktop
+    # Anything to do with git, except git itself which is users.profiles.git
+    git.github-desktop
 
-      # Any simple shell scripts
-      scripts.cbonsai
-      scripts.fd
+    # Any simple shell scripts
+    scripts.cbonsai
+    scripts.fd
 
-      # Terminal emulator(s)
-      terminal.kitty
+    # Terminal emulator(s)
+    terminal.kitty
 
-      # Web browsers
-      browsers
+    # Web
+    browsers
+    torrent
 
-      # Chat applications
-      discord
+    # Chat applications
+    discord
 
-      # File browser(s)
-      dolphin
+    # File browser(s)
+    dolphin
 
-      # Media recording/playback
-      flameshot
-      obs
-      vlc
+    # Media recording/playback
+    flameshot
+    obs
+    vlc
 
-      # Run launcher
-      launcher
+    # Run launcher
+    launcher
 
-      # Networking
-      networking
-      vpn
+    # Networking
+    networking
+    vpn
 
-      # Window Manager
-      wm
+    # Window Manager
+    wm
 
-      # Download scripts
-      ytdl
+    # Download scripts
+    ytdl
 
-      # Fonts
-      fonts
+    # Fonts
+    fonts
 
-      # Build tools
-      tools.cmake
-      tools.libtool
-    ])
-    ++ [
-      #/etc/nixos/hardware-configuration.nix
-    ];
+    # Build tools
+    tools.cmake
+    tools.libtool
+  ]) ++ [
+    #/etc/nixos/hardware-configuration.nix
+  ];
 
   # Misc
   time.timeZone = "Europe/London";
@@ -83,13 +74,10 @@
     # NTFS support
     supportedFilesystems = [ "ntfs" ];
 
-
     initrd = {
 
       # Setup keyfile
-      secrets = {
-        "/crypto_keyfile.bin" = null;
-      };
+      secrets = { "/crypto_keyfile.bin" = null; };
 
       # LUKS
       luks = {
@@ -101,7 +89,8 @@
         };
       };
 
-      availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+      availableKernelModules =
+        [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
       kernelModules = [ ];
     };
 
@@ -162,7 +151,6 @@
     printing.enable = true;
   };
 
-
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -182,7 +170,7 @@
 
   # Nixpkgs config
   nixpkgs = {
-    
+
     # Allow unfree packages
     config.allowUnfree = true;
 
@@ -191,7 +179,8 @@
   };
 
   # Hardware
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
