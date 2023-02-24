@@ -1,0 +1,18 @@
+#+title: Discord Config
+#+PROPERTY: header-args :tangle ~/.config/discord/settings.json
+
+I don't know or care what most of these settings do, all I know is that I want the devtools.
+#+begin_src json
+{
+    "DANGEROUS_ENABLE_DEVTOOLS_ONLY_ENABLE_IF_YOU_KNOW_WHAT_YOURE_DOING": true,
+    "IS_MAXIMIZED": true,
+    "IS_MINIMIZED": false,
+    "WINDOW_BOUNDS": {
+        "x": 380,
+        "y": 234,
+        "width": 1280,
+        "height": 720
+    },
+    "SKIP_HOST_UPDATE": true
+}
+#+end_src

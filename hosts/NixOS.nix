@@ -48,6 +48,15 @@
     # Fonts
     fonts
 
+    # Fetch commands
+    fetch
+
+    # Task Management
+    htop
+
+    # Package Managers
+    package-managers.yarn
+
     # Build tools
     tools.cmake
     tools.libtool

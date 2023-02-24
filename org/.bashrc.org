@@ -31,6 +31,10 @@ alias rebuild="sudo nixos-rebuild"
 alias update="sudo nixos-rebuild switch --flake ~/.nixcfg"
 alias devshell="nix --experimental-features 'nix-command flakes' develop"
 #+end_src
+** emacs
+#+begin_src bash
+alias em="emacs -nw"
+#+end_src
 * Archive Extractor
 Taken from [[https://github.com/arcolinux/arcolinux-root/blob/master/etc/skel/.bashrc-latest][here]], usage: =ex <file>=.
 #+begin_src bash

@@ -225,6 +225,8 @@
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 
+ "C-d" #'kill-emacs
+
                                         ;"C-RET"    #'(lambda () (interactive) (+org/insert-item-below) (org-return))
 
  ;; "C-M-x f a"   ;#'helm-bibtex         ; "find article" : opens up helm bibtex for search.
