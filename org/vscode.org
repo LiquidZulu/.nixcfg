@@ -1,0 +1,142 @@
+#+title: VSCode config
+
+* Settings
+#+begin_src json header-args :tangle ~/.config/Code/User/settings.json
+{
+    "workbench.colorTheme": "Doom One",
+    "telemetry.telemetryLevel": "off",
+    "security.workspace.trust.untrustedFiles": "open"
+}
+#+end_src
+
+* Keybindings
+NOTE: I did not write this by hand nor do I imagine such a thing would be particularly enjoyable considering how verbose it is. I rather store it here in case I need to re-use this config elsewhere.
+
+#+begin_quote
+Place your key bindings in this file to override the =defaultsauto[]=
+#+end_quote
+#+begin_src json header-args :tangle ~/.config/Code/User/keybindings.json
+[
+    {
+        "key": "alt+j",
+        "command": "scrollLineDown",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+down",
+        "command": "-scrollLineDown",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+m",
+        "command": "scrollLineUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+up",
+        "command": "-scrollLineUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "cursorLineStart"
+    },
+    {
+        "key": "ctrl+u",
+        "command": "cursorLineEnd"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "cursorLeft",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "left",
+        "command": "-cursorLeft",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "cursorRight",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "right",
+        "command": "-cursorRight",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+l",
+        "command": "cursorUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "up",
+        "command": "-cursorUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+u",
+        "command": "cursorDown",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "down",
+        "command": "-cursorDown",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+n",
+        "command": "cursorWordLeft",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+left",
+        "command": "-cursorWordLeft",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+e",
+        "command": "cursorWordEndRight",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+right",
+        "command": "-cursorWordEndRight",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+x 3",
+        "command": "workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+\\",
+        "command": "-workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+x 2",
+        "command": "workbench.action.splitEditorDown"
+    },
+    {
+        "key": "ctrl+x 1",
+        "command": "workbench.action.closeOtherEditors"
+    },
+    {
+        "key": "ctrl+x o",
+        "command": "workbench.action.navigateEditorGroups"
+    },
+    {
+        "key": "ctrl+x 1",
+        "command": "workbench.action.closeEditorsInOtherGroups"
+    },
+    {
+        "key": "ctrl+x ctrl+s",
+        "command": "workbench.action.files.save"
+    },
+    {
+        "key": "ctrl+s",
+        "command": "-workbench.action.files.save"
+    }
+]
+
+#+end_src

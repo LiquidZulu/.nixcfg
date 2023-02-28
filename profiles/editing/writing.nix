@@ -1,8 +1,3 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  environment.systemPackages = with pkgs; [ atom ];
+{ config, lib, pkgs, ... }: {
+  environment.systemPackages = with pkgs; [ atom vscode ];
 }

@@ -60,6 +60,7 @@
     # Build tools
     tools.cmake
     tools.libtool
+    tools.libuuid
   ]) ++ [
     #/etc/nixos/hardware-configuration.nix
   ];
@@ -143,6 +144,8 @@
 
   # Services
   services = {
+
+    flatpak.enable = true;
 
     # X11 Keymap
     xserver = {
