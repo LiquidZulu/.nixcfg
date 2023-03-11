@@ -1,0 +1,6 @@
+#+title: .org for ~/.npmrc
+#+PROPERTY: header-args :tangle ~/.npmrc
+
+#+begin_src bash
+prefix=~/.npm-packages
+#+end_src

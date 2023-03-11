@@ -1,5 +1,6 @@
 { hmUsers, ... }: {
   home-manager.users = { inherit (hmUsers) liquidzulu; };
+
   users.users.liquidzulu = {
     # Generated with mkpasswd
     initialHashedPassword =
@@ -7,6 +8,6 @@
     isNormalUser = true;
     description = "liquidzulu";
     createHome = true;
-    extraGroups = [ "libvirtd" "networkmanager" "wheel" ];
+    extraGroups = [ "libvirtd" "networkmanager" "wheel" "plugdev" ];
   };
 }

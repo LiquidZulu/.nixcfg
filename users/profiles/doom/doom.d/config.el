@@ -191,9 +191,14 @@
   (dired "~/Documents/youtube-scripts/courses"))
 
 (defun notes ()
-  "Go to yt scripts"
+  "Go to notes"
   (interactive)
   (dired "~/Documents/notes"))
+
+(defun web ()
+  "Go to liquidzulu.github.io repo"
+  (interactive)
+  (dired "~/Documents/liquidzulu.github.io"))
 
 ;(setq w32-apps-modifier 'hyper)
 ;(setq w32-lwindow-modifier 'super)
@@ -249,6 +254,24 @@
       '(
         (C . t)
         (js . t)))
+
+(define-derived-mode astro-mode web-mode "astro")
+(setq auto-mode-alist
+      (append '((".*\\.astro\\'" . astro-mode))
+              auto-mode-alist))
+
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '(astro-mode . "astro"))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("astro-ls" "--stdio"))
+                    :activation-fn (lsp-activate-on "astro")
+                    :server-id 'astro-ls)))
+
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
+(add-hook 'astro-mode-hook 'prettier-js-mode)
 
 (require 'ox-json)
 

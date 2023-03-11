@@ -1,8 +1,3 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  environment.systemPackages = with pkgs; [ kdenlive ];
+{ config, lib, pkgs, ... }: {
+  environment.systemPackages = with pkgs; [ kdenlive mediainfo mlt ];
 }

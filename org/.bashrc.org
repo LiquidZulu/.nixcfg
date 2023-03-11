@@ -1,10 +1,10 @@
-#+title: .bashrc
+#+title: .org for ~/.bashrc
 #+PROPERTY: header-args :tangle ~/.bashrc
 
 * Environment Variables
 ** PATH
 #+begin_src bash
-export PATH=$PATH:~/.emacs.d/bin
+export PATH="$PATH:~/.emacs.d/bin:~/.npm-packages/bin"
 #+end_src
 ** Allow Unfree Nix Packages
 #+begin_src bash
@@ -78,7 +78,12 @@ vterm_printf() {
     fi
 }
 #+end_src
-* Launch Script
+* Launch Script(s)
+** Auto CD
+#+begin_src bash
+shopt -s autocd
+#+end_src
+** Bling
 #+begin_src bash
 cbonsai -p
 #neofetch

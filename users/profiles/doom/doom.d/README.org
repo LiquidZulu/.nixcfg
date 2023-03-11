@@ -301,10 +301,19 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
 ** Goto Notes
 #+begin_src elisp
 (defun notes ()
-  "Go to yt scripts"
+  "Go to notes"
   (interactive)
   (dired "~/Documents/notes"))
 #+end_src
+
+** Goto liquidzulu.github.io
+#+begin_src elisp
+(defun web ()
+  "Go to liquidzulu.github.io repo"
+  (interactive)
+  (dired "~/Documents/liquidzulu.github.io"))
+#+end_src
+
 * Key Mapping
 I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layout can be found [[https://configure.ergodox-ez.com/ergodox-ez/layouts/BO06w/latest/0][here]] -- so remapping of certain core keys, namely motion keys, is required for ergonomics and ease of use.
 #+begin_src elisp
@@ -363,14 +372,38 @@ I basically only use UTF-8 so it takes up space for no reason most of the time.
                           (eq buffer-file-coding-system 'utf-8)))))
 (add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 #+end_src
-* Babel Settings
-** Languages
+* Languages
+** Babel
 #+begin_src elisp
 (org-babel-do-load-languages
       'org-babel-load-languages
       '(
         (C . t)
         (js . t)))
+#+end_src
+
+** Astro.js
+See https://github.com/emacs-lsp/lsp-mode/issues/3584
+#+begin_src elisp
+(define-derived-mode astro-mode web-mode "astro")
+(setq auto-mode-alist
+      (append '((".*\\.astro\\'" . astro-mode))
+              auto-mode-alist))
+
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '(astro-mode . "astro"))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("astro-ls" "--stdio"))
+                    :activation-fn (lsp-activate-on "astro")
+                    :server-id 'astro-ls)))
+#+end_src
+** prettier
+#+begin_src elisp
+(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook 'prettier-js-mode)
+(add-hook 'astro-mode-hook 'prettier-js-mode)
 #+end_src
 * Package Config
 

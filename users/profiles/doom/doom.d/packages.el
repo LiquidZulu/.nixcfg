@@ -59,3 +59,6 @@
 (package! s)
 ;(package! org-make-toc) ; Tables of Contents within orgmode
 (package! ox-json)
+(package! prettier-js)
+(provide 'packages)
+;;; packages.el ends here

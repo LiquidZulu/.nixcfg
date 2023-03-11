@@ -6,6 +6,8 @@
     editing.gimp
     editing.writing
     editing.kdenlive
+    editing.audacity
+    editing.lmms
 
     # Anything to do with git, except git itself which is users.profiles.git
     git.github-desktop
@@ -57,10 +59,18 @@
     # Package Managers
     package-managers.yarn
 
-    # Build tools
+    # Tools
     tools.cmake
     tools.libtool
     tools.libuuid
+    tools.ngrok
+
+    # Drivers
+    drivers.printer
+
+    # Misc
+    ledger
+    vcv
   ]) ++ [
     #/etc/nixos/hardware-configuration.nix
   ];
@@ -122,6 +132,7 @@
   networking = {
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
+    firewall.enable = false;
   };
 
   # Select internationalisation properties.

@@ -1,0 +1,18 @@
+#+title: Kitty Config
+#+PROPERTY: header-args :tangle ~/.config/kitty/kitty.conf
+
+* Theme
+#+begin_src conf
+# BEGIN_KITTY_THEME
+# Doom One
+include current-theme.conf
+# END_KITTY_THEME
+#+end_src
+
+* Font
+#+begin_src conf
+font_family      mononoki Nerd Font Mono
+bold_font        mononoki Bold Nerd Font Complete Mono
+italic_font      mononoki Italic Nerd Font Complete Mono
+bold_italic_font mononoki Bold Italic Nerd Font Complete Mono
+#+end_src
