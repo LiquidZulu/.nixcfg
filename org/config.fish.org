@@ -5,6 +5,7 @@
 #+begin_src sh
 set fish_greeting ""
 #+end_src
+
 * Environment Variables
 ** PATH
 #+begin_src sh
@@ -18,6 +19,7 @@ set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.emacs.d/bin $HOME/.np
 alias ls="exa -a --color=always --group-directories-first"
 alias ll="exa -al --color=always --group-directories-first"
 alias lt="exa -aT --color=always --group-directories-first"
+alias l.='exa -a | egrep "^\."'
 #+end_src
 
 ** yt-DP
@@ -99,16 +101,6 @@ function vterm_printf;
         printf "\e]%s\e\\" "$argv"
     end
 end
-#+end_src
-* Shopt
-#+begin_src sh
-shopt -s autocd # change to named directory
-shopt -s cdspell # autocorrects cd misspellings
-shopt -s cmdhist # save multi-line commands in history as single line
-shopt -s dotglob
-shopt -s histappend # do not overwrite history
-shopt -s expand_aliases # expand aliases
-shopt -s checkwinsize # checks term size when bash regains control
 #+end_src
 
 * Add Safety to Dangerous Commands
