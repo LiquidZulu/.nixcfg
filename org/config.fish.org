@@ -3,12 +3,13 @@
 
 * Greeting
 #+begin_src sh
-set fish_greeting
+set fish_greeting ""
 #+end_src
 * Environment Variables
 ** PATH
 #+begin_src sh
-set -Ux PATH "$PATH:~/.emacs.d/bin:~/.npm-packages/bin"
+set -e fish_user_paths
+set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.emacs.d/bin $HOME/.npm-packages/bin $fish_user_paths
 #+end_src
 
 * Aliases
