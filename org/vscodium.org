@@ -1,12 +1,9 @@
-#+title: VSCode config
-
-DEPRECATED SEE =./vscodium.org=
+#+title: VSCodium config
 
 * Settings
-#+begin_src json header-args :tangle ~/.config/Code/User/settings.json
+#+begin_src json header-args :tangle ~/.config/VSCodium/User/settings.json
 {
     "workbench.colorTheme": "Doom One",
-    "telemetry.telemetryLevel": "off",
     "security.workspace.trust.untrustedFiles": "open"
 }
 #+end_src
@@ -17,7 +14,7 @@ NOTE: I did not write this by hand nor do I imagine such a thing would be partic
 #+begin_quote
 Place your key bindings in this file to override the =defaultsauto[]=
 #+end_quote
-#+begin_src json header-args :tangle ~/.config/Code/User/keybindings.json
+#+begin_src json header-args :tangle ~/.config/VSCodium/keybindings.json
 [
     {
         "key": "alt+j",
@@ -53,18 +50,8 @@ Place your key bindings in this file to override the =defaultsauto[]=
         "when": "textInputFocus"
     },
     {
-        "key": "left",
-        "command": "-cursorLeft",
-        "when": "textInputFocus"
-    },
-    {
         "key": "ctrl+e",
         "command": "cursorRight",
-        "when": "textInputFocus"
-    },
-    {
-        "key": "right",
-        "command": "-cursorRight",
         "when": "textInputFocus"
     },
     {
@@ -73,18 +60,8 @@ Place your key bindings in this file to override the =defaultsauto[]=
         "when": "textInputFocus"
     },
     {
-        "key": "up",
-        "command": "-cursorUp",
-        "when": "textInputFocus"
-    },
-    {
         "key": "alt+u",
         "command": "cursorDown",
-        "when": "textInputFocus"
-    },
-    {
-        "key": "down",
-        "command": "-cursorDown",
         "when": "textInputFocus"
     },
     {
@@ -134,10 +111,6 @@ Place your key bindings in this file to override the =defaultsauto[]=
     {
         "key": "ctrl+x ctrl+s",
         "command": "workbench.action.files.save"
-    },
-    {
-        "key": "ctrl+s",
-        "command": "-workbench.action.files.save"
     }
 ]
 

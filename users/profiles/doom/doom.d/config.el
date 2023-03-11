@@ -232,6 +232,8 @@
 
  "C-d" #'kill-emacs
 
+ "C-x s" #'ace-swap-window
+
                                         ;"C-RET"    #'(lambda () (interactive) (+org/insert-item-below) (org-return))
 
  ;; "C-M-x f a"   ;#'helm-bibtex         ; "find article" : opens up helm bibtex for search.

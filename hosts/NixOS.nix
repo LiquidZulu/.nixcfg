@@ -12,7 +12,9 @@
     # Anything to do with git, except git itself which is users.profiles.git
     git.github-desktop
 
-    # Any simple shell scripts
+    # Scripts and shells
+    sh
+    scripts.exa
     scripts.cbonsai
     scripts.fd
 
