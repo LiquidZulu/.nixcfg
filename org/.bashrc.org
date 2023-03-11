@@ -1,6 +1,8 @@
 #+title: .org for ~/.bashrc
 #+PROPERTY: header-args :tangle ~/.bashrc
 
+I no longer use BASH
+
 * Environment Variables
 ** PATH
 #+begin_src bash

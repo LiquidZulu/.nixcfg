@@ -1,13 +1,5 @@
-{
-  config,
-  lib,
-  pkgs,
-  self,
-  ...
-}: {
-  imports = [
-    ./common.nix
-  ];
+{ config, lib, pkgs, self, ... }: {
+  imports = [ ./common.nix ];
 
   environment = {
     # Selection of sysadmin tools that can come in handy
@@ -19,8 +11,7 @@
       utillinux
     ];
 
-    shellAliases = let
-      ifSudo = lib.mkIf config.security.sudo.enable;
+    shellAliases = let ifSudo = lib.mkIf config.security.sudo.enable;
     in {
       # nix
       nrb = ifSudo "sudo nixos-rebuild";
@@ -41,8 +32,8 @@
   };
 
   fonts.fontconfig.defaultFonts = {
-    monospace = ["DejaVu Sans Mono for Powerline"];
-    sansSerif = ["DejaVu Sans"];
+    monospace = [ "DejaVu Sans Mono for Powerline" ];
+    sansSerif = [ "DejaVu Sans" ];
   };
 
   nix = {
@@ -51,8 +42,8 @@
       sandbox = true;
 
       # Give root user and wheel group special Nix privileges.
-      trusted-users = ["root" "@wheel"];
-      allowed-users = ["@wheel"];
+      trusted-users = [ "root" "@wheel" ];
+      allowed-users = [ "@wheel" ];
     };
 
     # Improve nix store disk usage
@@ -69,6 +60,18 @@
     # Enable direnv, a tool for managing shell environments
     interactiveShellInit = ''
       eval "$(${pkgs.direnv}/bin/direnv hook bash)"
+    '';
+  };
+
+  programs.fish = {
+    # Enable starship
+    promptInit = ''
+      ${pkgs.starship}/bin/starship init fish | source
+    '';
+
+    # Enable direnv, a tool for managing shell environments
+    interactiveShellInit = ''
+      ${pkgs.direnv}/bin/direnv hook fish | source
     '';
   };
 

@@ -1,16 +1,32 @@
+#+title: Starship Config
+#+PROPERTY: header-args :tangle ../profiles/core/starship.toml
+
+DEPRECATED SEE =../profiles/sh.nix=
+
+* Character
+#+begin_src conf
 [character]
 success_symbol = "[❯](bold purple)"
 vicmd_symbol = "[❮](bold purple)"
+#+end_src
 
+* Battery
+#+begin_src conf
 [battery]
 full_symbol = ""
 charging_symbol = ""
 discharging_symbol = ""
+#+end_src
 
+* Directory
+#+begin_src conf
 [directory]
 style = "cyan"
 read_only = " "
+#+end_src
 
+* Git
+#+begin_src conf
 [git_branch]
 format = "[$symbol$branch]($style) "
 symbol = " "
@@ -29,7 +45,11 @@ staged = "✔ "
 renamed = "⇆ "
 deleted = "✘ "
 style = "bold bright-white"
+#+end_src
 
+* Nerd Font Symbols
+See https://starship.rs/presets/nerd-font
+#+begin_src conf
 [aws]
 symbol = "  "
 
@@ -157,16 +177,26 @@ symbol = " "
 
 [spack]
 symbol = "🅢 "
+#+end_src
 
+* Memory Usage
+#+begin_src conf
 [memory_usage]
 symbol = " "
 disabled = false
+#+end_src
 
+* Nix Shell
+#+begin_src conf
 [nix_shell]
 format = '[$symbol$state]($style) '
 symbol = " "
 pure_msg = "λ"
 impure_msg = "⎔"
+#+end_src
 
+* Status
+#+begin_src conf
 [status]
 disabled = false
+#+end_src
