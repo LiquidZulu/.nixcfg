@@ -101,6 +101,12 @@
     ;; global binding
     (_ `(global-set-key (kbd ,key) ,(eval `(:command ,@body))))))
 
+(defun :enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+      (funcall (cdr my-pair)))))
+
 (setq user-full-name "LiquidZulu"
       user-mail-address "liquidzulu@pm.me")
 
@@ -270,6 +276,10 @@
    (make-lsp-client :new-connection (lsp-stdio-connection '("astro-ls" "--stdio"))
                     :activation-fn (lsp-activate-on "astro")
                     :server-id 'astro-ls)))
+
+(add-hook 'web-mode-hook #'(lambda ()
+                            (:enable-minor-mode
+                             '("\\.astro?\\'" . prettier-js-mode))))
 
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)

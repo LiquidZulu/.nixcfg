@@ -2,28 +2,39 @@
 #+PROPERTY: header-args :tangle ~/.config/fish/config.fish
 
 * Greeting
-#+begin_src sh
+#+begin_src fish
 set fish_greeting ""
 #+end_src
 
 * Environment Variables
+** SYSCONF
+#+begin_src fish
+set -U sysconf $HOME/.nixcfg
+#+end_src
 ** PATH
-#+begin_src sh
+#+begin_src fish
 set -e fish_user_paths
-set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.emacs.d/bin $HOME/.npm-packages/bin $fish_user_paths
+set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.emacs.d/bin $HOME/.npm-packages/bin $sysconf/scripts $fish_user_paths
 #+end_src
 
 * Aliases
 ** ls/exa
-#+begin_src sh
+*** Root aliases
+#+begin_src fish
 alias ls="exa -a --color=always --group-directories-first"
 alias ll="exa -al --color=always --group-directories-first"
 alias lt="exa -aT --color=always --group-directories-first"
-alias l.='exa -a | egrep "^\."'
+#+end_src
+
+*** Derived aliases
+**** List dotfiles
+#+begin_src fish
+alias l.='ls -d .*'
+alias ll.='ll -d .*'
 #+end_src
 
 ** yt-DP
-#+begin_src sh
+#+begin_src fish
 alias yta-aac="youtube-dl --extract-audio --audio-format aac "
 alias yta-best="youtube-dl --extract-audio --audio-format best "
 alias yta-flac="youtube-dl --extract-audio --audio-format flac "
@@ -36,7 +47,7 @@ alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+besta
 #+end_src
 
 ** nix
-#+begin_src sh
+#+begin_src fish
 alias nenv="nix-env"
 alias rebuild="sudo nixos-rebuild"
 alias update="sudo nixos-rebuild switch --flake ~/.nixcfg"
@@ -44,52 +55,45 @@ alias devshell="nix --experimental-features 'nix-command flakes' develop"
 #+end_src
 
 ** emacs
-#+begin_src sh
+#+begin_src fish
 alias em="emacs -nw"
 #+end_src
 
-* Archive Extractor
-Taken from [[https://github.com/arcolinux/arcolinux-root/blob/master/etc/skel/.bashrc-latest][here]], usage: =ex <file>=.
-#+begin_src sh
-function ex
-    set ex_file $argv[1]
-    switch $ex_file
-        case "*.tar.bz2"
-             tar xjf $ex_file
-        case "*.tar.gz"
-             tar xzf $ex_file
-        case "*.bz2"
-             bunzip2 $ex_file
-        case "*.rar"
-             unrar x $ex_file
-        case "*.gz"
-             gunzip $ex_file
-        case "*.tar"
-             tar xf $ex_file
-        case "*.tbz2"
-             tar xjf $ex_file
-        case "*.tgz"
-             tar xzf $ex_file
-        case "*.zip"
-             unzip $ex_file
-        case "*.Z"
-             uncompress $ex_file
-        case "*.7z"
-             7z x $ex_file
-        case "*.deb"
-             ar x $ex_file
-        case "*.tar.xz"
-             tar xf $ex_file
-        case "*.tar.zst"
-             tar xf $ex_file
-        case "*"
-             echo "'$ex_file' cannot be extracted via ex()"
-    end
-end
+** mkdirp
+#+begin_src fish
+alias mkdirp="mkdir -p"
+#+end_src
+
+** shutdown command
+#+begin_src fish
+alias sd="shutdown +0"
+#+end_src
+
+** disk usage
+#+begin_src fish
+alias du="gdu"
+#+end_src
+
+* Key Bindings
+** Directory Locomotion
+#+begin_src fish
+bind \cn prevd-or-backward-word
+bind \ce nextd-or-forward-word
+#+end_src
+
+** ls
+#+begin_src fish
+bind \cl 'printf "\n"; ll; commandline -f repaint'
+#+end_src
+
+** clear
+#+begin_src fish
+bind \ec 'clear; commandline -f repaint'
+bind \ex 'clearall; commandline -f repaint'
 #+end_src
 
 * vterm configuration
-#+begin_src sh
+#+begin_src fish
 function vterm_printf;
     if begin; [  -n "$TMUX" ]  ; and  string match -q -r "screen|tmux" "$TERM"; end
         # tell tmux to pass the escape sequences through
@@ -104,32 +108,45 @@ end
 #+end_src
 
 * Add Safety to Dangerous Commands
-#+begin_src sh
+#+begin_src fish
 alias cp="cp -i"
 alias mv='mv -i'
 alias rm='rm -i'
 #+end_src
 
 * Fun E
-#+begin_src sh
+#+begin_src fish
 alias rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash'
 #+end_src
 
 * Launch Script
-#+begin_src sh
-cbonsai -p
-#neofetch
-#screenfetch
-#alsi
-#paleofetch
-#fetch
-#hfetch
-#sfetch
-#ufetch
-#ufetch-arco
-#pfetch
-#sysinfo
-#sysinfo-retro
-#cpufetch
-#colorscript random
+** Setting the launchscript
+Uncomment one of these
+#+begin_src fish
+#alias launchscript="cbonsai -p"
+#alias launchscript="neofetch"
+#alias launchscript="screenfetch"
+#alias launchscript="alsi"
+#alias launchscript="paleofetch"
+#alias launchscript="fetch"
+#alias launchscript="hfetch"
+#alias launchscript="sfetch"
+#alias launchscript="ufetch"
+#alias launchscript="ufetch-arco"
+#alias launchscript="pfetch"
+#alias launchscript="sysinfo"
+#alias launchscript="sysinfo-retro"
+#alias launchscript="cpufetch"
+alias launchscript="colorscript random"
+
+launchscript
+#+end_src
+
+** Aliasing clear
+#+begin_src fish
+# \x1b[2J   <- clears tty
+# \x1b[1;1H <- goes to (1, 1) (start)
+alias clearall="echo -en '\x1b[2J\x1b[1;1H'"
+
+alias clear="clearall; launchscript"
 #+end_src

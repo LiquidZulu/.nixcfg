@@ -147,6 +147,16 @@ Bind some forms or a symbol to a key. (I use map! instead)
     (_ `(global-set-key (kbd ,key) ,(eval `(:command ,@body))))))
 #+end_src
 
+** :enable-minor-mode
+https://github.com/prettier/prettier-emacs#usage-with-web-mode
+#+begin_src elisp
+(defun :enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+      (funcall (cdr my-pair)))))
+#+end_src
+
 * Settings
 
 ** email
@@ -400,6 +410,13 @@ See https://github.com/emacs-lsp/lsp-mode/issues/3584
    (make-lsp-client :new-connection (lsp-stdio-connection '("astro-ls" "--stdio"))
                     :activation-fn (lsp-activate-on "astro")
                     :server-id 'astro-ls)))
+#+end_src
+
+Enable prettier
+#+begin_src elisp
+(add-hook 'web-mode-hook #'(lambda ()
+                            (:enable-minor-mode
+                             '("\\.astro?\\'" . prettier-js-mode))))
 #+end_src
 ** prettier
 #+begin_src elisp

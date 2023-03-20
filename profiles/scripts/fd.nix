@@ -1,9 +1,1 @@
-
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  environment.systemPackages = with pkgs; [ fd ];
-}
+{ config, lib, pkgs, ... }: { environment.systemPackages = with pkgs; [ fd ]; }

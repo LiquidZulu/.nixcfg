@@ -16,7 +16,11 @@
     sh
     scripts.exa
     scripts.cbonsai
+    scripts.colorscript
     scripts.fd
+    scripts.gdu
+    scripts.hollywood
+    scripts.cmatrix
 
     # Terminal emulator(s)
     terminal.kitty
