@@ -205,6 +205,16 @@
   "Go to liquidzulu.github.io repo"
   (interactive)
   (dired "~/Documents/liquidzulu.github.io"))
+(defun webv ()
+  "Go to liquidzulu.github.io repo and open terminal"
+  (interactive)
+  (dired "~/Documents/liquidzulu.github.io")
+  (vterm))
+
+(defun capsaicin ()
+  "Go to capsaicin repo"
+  (interactive)
+  (dired "~/Documents/capsaicin"))
 
 ;(setq w32-apps-modifier 'hyper)
 ;(setq w32-lwindow-modifier 'super)
@@ -236,9 +246,11 @@
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 
- "C-d" #'kill-emacs
+ "C-d" #'doom/delete-frame-with-prompt
 
  "C-x s" #'ace-swap-window
+
+ "C-x M-s" #'(lambda () (interactive) (save-buffer) (org-babel-tangle))
 
                                         ;"C-RET"    #'(lambda () (interactive) (+org/insert-item-below) (org-return))
 
@@ -247,6 +259,9 @@
  ;; "C-M-x r c i" ;#'org-clock-in        ; "routine clock in" : clock in to a habit.
  ;; "C-M-x c b"   ;#'beacon-blink        ; "cursor blink" : makes the beacon-blink
  )
+
+(map! :map markdown-mode-map
+      "M-n" #'backward-word) ; used to be markdown-next-link, which breaks the locomotion
 
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
@@ -284,6 +299,10 @@
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 (add-hook 'astro-mode-hook 'prettier-js-mode)
+
+(setq auto-mode-alist
+      (append '((".*\\.pyx\\'" . cython-mode))
+              auto-mode-alist))
 
 (require 'ox-json)
 

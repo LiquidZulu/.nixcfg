@@ -61,5 +61,6 @@
 (package! ox-json)
 (package! prettier-js)
 (package! fish-mode)
+(package! cython-mode)
 (provide 'packages)
 ;;; packages.el ends here

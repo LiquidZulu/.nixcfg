@@ -322,10 +322,24 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   "Go to liquidzulu.github.io repo"
   (interactive)
   (dired "~/Documents/liquidzulu.github.io"))
+(defun webv ()
+  "Go to liquidzulu.github.io repo and open terminal"
+  (interactive)
+  (dired "~/Documents/liquidzulu.github.io")
+  (vterm))
+#+end_src
+
+** Goto capsaicin
+#+begin_src elisp
+(defun capsaicin ()
+  "Go to capsaicin repo"
+  (interactive)
+  (dired "~/Documents/capsaicin"))
 #+end_src
 
 * Key Mapping
 I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layout can be found [[https://configure.ergodox-ez.com/ergodox-ez/layouts/BO06w/latest/0][here]] -- so remapping of certain core keys, namely motion keys, is required for ergonomics and ease of use.
+** global
 #+begin_src elisp
 ;(setq w32-apps-modifier 'hyper)
 ;(setq w32-lwindow-modifier 'super)
@@ -357,9 +371,11 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
 
  "M-y" #'yank ; I keep accidently pressing this instead of C-y, and I hate it, it breaks everything
 
- "C-d" #'kill-emacs
+ "C-d" #'doom/delete-frame-with-prompt
 
  "C-x s" #'ace-swap-window
+
+ "C-x M-s" #'(lambda () (interactive) (save-buffer) (org-babel-tangle))
 
                                         ;"C-RET"    #'(lambda () (interactive) (+org/insert-item-below) (org-return))
 
@@ -368,6 +384,12 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
  ;; "C-M-x r c i" ;#'org-clock-in        ; "routine clock in" : clock in to a habit.
  ;; "C-M-x c b"   ;#'beacon-blink        ; "cursor blink" : makes the beacon-blink
  )
+#+end_src
+
+** major/minor modes
+#+begin_src elisp
+(map! :map markdown-mode-map
+      "M-n" #'backward-word) ; used to be markdown-next-link, which breaks the locomotion
 #+end_src
 
 * Major modes
@@ -424,6 +446,14 @@ Enable prettier
 (add-hook 'web-mode-hook 'prettier-js-mode)
 (add-hook 'astro-mode-hook 'prettier-js-mode)
 #+end_src
+
+** python
+#+begin_src elisp
+(setq auto-mode-alist
+      (append '((".*\\.pyx\\'" . cython-mode))
+              auto-mode-alist))
+#+end_src
+
 * Package Config
 
 ** ox-json

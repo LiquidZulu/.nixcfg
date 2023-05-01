@@ -14,7 +14,7 @@ set -U sysconf $HOME/.nixcfg
 ** PATH
 #+begin_src fish
 set -e fish_user_paths
-set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.emacs.d/bin $HOME/.npm-packages/bin $sysconf/scripts $fish_user_paths
+set -U fish_user_paths $HOME/.bin  $HOME/.local/bin $HOME/.emacs.d/bin $HOME/.npm-packages/bin $HOME/.npm-packages/lib $HOME/Documents/capsaicin $sysconf/scripts $fish_user_paths
 #+end_src
 
 * Aliases
@@ -33,30 +33,37 @@ alias l.='ls -d .*'
 alias ll.='ll -d .*'
 #+end_src
 
-** yt-DP
+** yt-dlp
 #+begin_src fish
-alias yta-aac="youtube-dl --extract-audio --audio-format aac "
-alias yta-best="youtube-dl --extract-audio --audio-format best "
-alias yta-flac="youtube-dl --extract-audio --audio-format flac "
-alias yta-m4a="youtube-dl --extract-audio --audio-format m4a "
-alias yta-mp3="youtube-dl --extract-audio --audio-format mp3 "
-alias yta-opus="youtube-dl --extract-audio --audio-format opus "
-alias yta-vorbis="youtube-dl --extract-audio --audio-format vorbis "
-alias yta-wav="youtube-dl --extract-audio --audio-format wav "
+alias yta-aac="yt-dlp --extract-audio --audio-format aac "
+alias yta-best="yt-dlp --extract-audio --audio-format best "
+alias yta-flac="yt-dlp --extract-audio --audio-format flac "
+alias yta-m4a="yt-dlp --extract-audio --audio-format m4a "
+alias yta-mp3="yt-dlp --extract-audio --audio-format mp3 "
+alias yta-opus="yt-dlp --extract-audio --audio-format opus "
+alias yta-vorbis="yt-dlp --extract-audio --audio-format vorbis "
+alias yta-wav="yt-dlp --extract-audio --audio-format wav "
 alias ytv-best="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "
+#+end_src
+** fzf
+#+begin_src fish
+alias ff="fzf"
 #+end_src
 
 ** nix
 #+begin_src fish
 alias nenv="nix-env"
 alias rebuild="sudo nixos-rebuild"
-alias update="sudo nixos-rebuild switch --flake ~/.nixcfg"
+alias update="nix flake update ~/.nixcfg"
+alias rebuild="sudo nixos-rebuild switch --flake ~/.nixcfg"
+alias ur="update && rebuild"
 alias devshell="nix --experimental-features 'nix-command flakes' develop"
 #+end_src
 
 ** emacs
 #+begin_src fish
 alias em="emacs -nw"
+alias emacs="emacsclient -c -a 'emacs'"
 #+end_src
 
 ** mkdirp
@@ -74,6 +81,16 @@ alias sd="shutdown +0"
 alias du="gdu"
 #+end_src
 
+** yarn
+#+begin_src fish
+alias yd="yarn dev"
+#+end_src
+
+** capsaicin
+#+begin_src fish
+alias cap="$HOME/Documents/capsaicin/capsaicin"
+#+end_src
+
 * Key Bindings
 ** Directory Locomotion
 #+begin_src fish
@@ -83,7 +100,12 @@ bind \ce nextd-or-forward-word
 
 ** ls
 #+begin_src fish
-bind \cl 'printf "\n"; ll; commandline -f repaint'
+bind \cl 'll'
+#+end_src
+
+** filemanager
+#+begin_src fish
+bind \cf 'filemanager'
 #+end_src
 
 ** clear

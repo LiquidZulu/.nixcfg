@@ -14,13 +14,17 @@
 
     # Scripts and shells
     sh
-    scripts.exa
+    scripts.bat
     scripts.cbonsai
+    scripts.cmatrix
     scripts.colorscript
+    scripts.exa
     scripts.fd
+    scripts.file
+    scripts.fzf
     scripts.gdu
     scripts.hollywood
-    scripts.cmatrix
+    scripts.xmessage
 
     # Terminal emulator(s)
     terminal.kitty
@@ -39,6 +43,7 @@
     flameshot
     obs
     vlc
+    mpv
 
     # Run launcher
     launcher
@@ -64,6 +69,7 @@
 
     # Package Managers
     package-managers.yarn
+    package-managers.pip
 
     # Tools
     tools.cmake
@@ -77,6 +83,10 @@
     # Misc
     ledger
     vcv
+    python
+    openai
+    cuda
+    wine
   ]) ++ [
     #/etc/nixos/hardware-configuration.nix
   ];
@@ -86,6 +96,12 @@
 
   # Boot
   boot = {
+
+    # sysctl settings
+    kernel.sysctl = {
+      "vm.max_map_count" =
+        2147483642; # https://www.youtube.com/watch?v=PsHRbfZhgXM
+    };
 
     # Bootloader
     loader = {
@@ -138,7 +154,6 @@
   networking = {
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
-    firewall.enable = false;
   };
 
   # Select internationalisation properties.
