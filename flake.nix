@@ -21,7 +21,7 @@
     };
 
     # Track channels with commits tested and built by hydra
-    nixos.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixos.url = "github:nixos/nixpkgs/nixos-23.05";
     latest.url = "github:nixos/nixpkgs/nixos-unstable";
     # For darwin hosts: it can be helpful to track this darwin-specific stable
     # channel equivalent to the `nixos-*` channels for NixOS. For one, these
@@ -29,7 +29,7 @@
     # But, perhaps even more usefully, it provides a place for adding
     # darwin-specific overlays and packages which could otherwise cause build
     # failures on Linux systems.
-    nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
+    #nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
 
     digga.url = "github:divnix/digga";
     digga.inputs.nixpkgs.follows = "nixos";
@@ -37,11 +37,16 @@
     digga.inputs.home-manager.follows = "home";
     digga.inputs.deploy.follows = "deploy";
 
-    home.url = "github:nix-community/home-manager/release-22.11";
+    # remove this when flake-utils-plus is updated or merges the PR here: https://github.com/gytis-ivaskevicius/flake-utils-plus/compare/master...ravensiris:flake-utils-plus:ravensiris/fix-devshell-legacy-packages
+    digga.inputs."flake-utils-plus".follows = "flake-utils-plus-fix";
+    "flake-utils-plus-fix".url =
+      "github:ravensiris/flake-utils-plus/7a8d789d4d13e45d20e6826d7b2a1757d52f2e13";
+
+    home.url = "github:nix-community/home-manager/release-23.05";
     home.inputs.nixpkgs.follows = "nixos";
 
-    darwin.url = "github:LnL7/nix-darwin";
-    darwin.inputs.nixpkgs.follows = "nixpkgs-darwin-stable";
+    #darwin.url = "github:LnL7/nix-darwin";
+    #darwin.inputs.nixpkgs.follows = "nixpkgs-darwin-stable";
 
     deploy.url = "github:serokell/deploy-rs";
     deploy.inputs.nixpkgs.follows = "nixos";
@@ -66,17 +71,6 @@
         nixos = {
           imports = [ (digga.lib.importOverlays ./overlays) ];
           overlays = [ ];
-        };
-        nixpkgs-darwin-stable = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
-          overlays = [
-            # TODO: restructure overlays directory for per-channel overrides
-            # `importOverlays` will import everything under the path given
-            (channels: final: prev:
-              {
-                inherit (channels.latest) mas;
-              } // prev.lib.optionalAttrs true { })
-          ];
         };
         latest = { };
       };

@@ -2,7 +2,9 @@
 
 {
   # See https://nixos.wiki/wiki/Nvidia
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [
+    "nouveau" # https://github.com/NixOS/nixpkgs/issues/80936#issuecomment-1003784682
+  ];
   hardware.opengl.enable = true;
 
   # Optionally, you may need to select the appropriate driver version for your specific GPU.

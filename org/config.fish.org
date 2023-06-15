@@ -35,6 +35,7 @@ alias ll.='ll -d .*'
 
 ** yt-dlp
 #+begin_src fish
+alias yt="yt-dlp"
 alias yta-aac="yt-dlp --extract-audio --audio-format aac "
 alias yta-best="yt-dlp --extract-audio --audio-format best "
 alias yta-flac="yt-dlp --extract-audio --audio-format flac "
@@ -53,7 +54,6 @@ alias ff="fzf"
 ** nix
 #+begin_src fish
 alias nenv="nix-env"
-alias rebuild="sudo nixos-rebuild"
 alias update="nix flake update ~/.nixcfg"
 alias rebuild="sudo nixos-rebuild switch --flake ~/.nixcfg"
 alias ur="update && rebuild"
@@ -114,7 +114,8 @@ bind \ec 'clear; commandline -f repaint'
 bind \ex 'clearall; commandline -f repaint'
 #+end_src
 
-* vterm configuration
+* Application Config
+** Vterm
 #+begin_src fish
 function vterm_printf;
     if begin; [  -n "$TMUX" ]  ; and  string match -q -r "screen|tmux" "$TERM"; end
@@ -127,6 +128,10 @@ function vterm_printf;
         printf "\e]%s\e\\" "$argv"
     end
 end
+#+end_src
+** thefuck
+#+begin_src fish
+thefuck --alias | source
 #+end_src
 
 * Add Safety to Dangerous Commands
@@ -145,7 +150,7 @@ alias rr='curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/mas
 ** Setting the launchscript
 Uncomment one of these
 #+begin_src fish
-#alias launchscript="cbonsai -p"
+alias launchscript="cbonsai -p"
 #alias launchscript="neofetch"
 #alias launchscript="screenfetch"
 #alias launchscript="alsi"
@@ -159,7 +164,7 @@ Uncomment one of these
 #alias launchscript="sysinfo"
 #alias launchscript="sysinfo-retro"
 #alias launchscript="cpufetch"
-alias launchscript="colorscript random"
+#alias launchscript="colorscript random"
 
 launchscript
 #+end_src

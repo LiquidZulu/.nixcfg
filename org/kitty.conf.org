@@ -24,10 +24,10 @@ url_color #51AFEF
 * Font
 ** Font Family
 #+begin_src conf
-font_family      mononoki Nerd Font Mono
-bold_font        mononoki Bold Nerd Font Complete Mono
-italic_font      mononoki Italic Nerd Font Complete Mono
-bold_italic_font mononoki Bold Italic Nerd Font Complete Mono
+#font_family      mononoki Nerd Font Mono
+#bold_font        mononoki Bold Nerd Font Complete Mono
+#italic_font      mononoki Italic Nerd Font Complete Mono
+#bold_italic_font mononoki Bold Italic Nerd Font Complete Mono
 
 font_size 14.0
 #+end_src
@@ -47,5 +47,5 @@ map ctrl+shift+kp_subtract change_font_size all -2.0
 * Misc
 ** Hyperlink Targets
 #+begin_src conf
-show_hyperlink_targets yes
+#show_hyperlink_targets yes
 #+end_src

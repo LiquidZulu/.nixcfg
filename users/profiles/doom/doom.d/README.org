@@ -193,9 +193,9 @@ Sets inline images to be 500 wide
 ** Font stuff
 *** Font-Family
 #+begin_src elisp
-(setq
- doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
- doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
+;(setq
+; doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
+; doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
 #+end_src
 ** Org settings
 *** headline levels

@@ -8,6 +8,8 @@
     editing.kdenlive
     editing.audacity
     editing.lmms
+    editing.blender
+    #editing.natron # broken right now, using distrobox instead
 
     # Anything to do with git, except git itself which is users.profiles.git
     git.github-desktop
@@ -17,8 +19,9 @@
     scripts.bat
     scripts.cbonsai
     scripts.cmatrix
-    scripts.colorscript
+    #scripts.colorscript
     scripts.exa
+    scripts.thefuck
     scripts.fd
     scripts.file
     scripts.fzf
@@ -68,6 +71,7 @@
     htop
 
     # Package Managers
+    package-managers.apx
     package-managers.yarn
     package-managers.pip
 
@@ -215,8 +219,18 @@
   # Nixpkgs config
   nixpkgs = {
 
-    # Allow unfree packages
-    config.allowUnfree = true;
+    config = {
+      # Allow unfree packages
+      allowUnfree = true;
+
+      # Allow broken packages
+      #allowBroken = true;
+
+      # Allow insecure packages
+      permittedInsecurePackages = [
+        "openssl-1.1.1u" # for some reason they are shipping an out of date openssl
+      ];
+    };
 
     # Specify the platform where the NixOS configuration will run.
     hostPlatform = lib.mkDefault "x86_64-linux";

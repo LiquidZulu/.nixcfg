@@ -126,9 +126,9 @@
  '(rainbow-delimiters-depth-9-face :foreground "#FFFB7A")
  )
 
-(setq
- doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
- doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
+;(setq
+; doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
+; doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
 
 (setq org-export-headline-levels 512)
 
