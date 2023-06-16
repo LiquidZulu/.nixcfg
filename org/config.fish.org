@@ -56,7 +56,7 @@ alias ff="fzf"
 alias nenv="nix-env"
 alias update="nix flake update ~/.nixcfg"
 alias rebuild="sudo nixos-rebuild switch --flake ~/.nixcfg"
-alias ur="update && rebuild"
+alias ur="sudo update && rebuild"
 alias devshell="nix --experimental-features 'nix-command flakes' develop"
 #+end_src
 

@@ -22,7 +22,7 @@
 
     # Track channels with commits tested and built by hydra
     nixos.url = "github:nixos/nixpkgs/nixos-23.05";
-    latest.url = "github:nixos/nixpkgs/nixos-unstable";
+    #latest.url = "github:nixos/nixpkgs/nixos-unstable";
     # For darwin hosts: it can be helpful to track this darwin-specific stable
     # channel equivalent to the `nixos-*` channels for NixOS. For one, these
     # channels are more likely to provide cached binaries for darwin systems.
@@ -69,10 +69,10 @@
 
       channels = {
         nixos = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
+          #imports = [ (digga.lib.importOverlays ./overlays) ];
           overlays = [ ];
         };
-        latest = { };
+        #latest = { };
       };
 
       lib = import ./lib { lib = digga.lib // nixos.lib; };
