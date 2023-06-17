@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+const path = require("path");
+const { exec } = require("child_process");
+
+const dir = path.join(process.cwd(), process.argv[2]);
+const command = `tar -zcvf ${path.basename(dir)}.zip ${dir}`;
+
+//process.stdout.write(command);
+console.log(command);
+exec(command, (error, stdout, stderr) => {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  if (stderr) {
+    console.error(stderr);
+    return;
+  }
+  console.log(stdout);
+});

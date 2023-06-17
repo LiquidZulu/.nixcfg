@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+// Example: ls | foreach echo "Hello %v! You are index %i!"
+// %v is the value at the current index
+// %i is the index of that value
+// %a is the entire list of values passed in joined by ' '
+
+const stripANSI = (s) => {
+  // This should match any and all ANSI escape codes
+  // https://en.wikipedia.org/wiki/ANSI_escape_code
+  // https://regexr.com/
+  // should actually be /(\\)([A-z]|[0-9]){3}(\[)((((.)+;)+([^m]+m))|([^m]+m))/g
+  // but JS is retarded and keeps throwing escapes where they don't belong
+  // I have assumed here that the crazy escape sequence will not end up as any
+  // letter or number, hence [^A-z0-9]
+  const regex = /[^A-z0-9](\[)((((.)+;)+([^m]+m))|([^m]+m))/g;
+  return s.replaceAll(regex, "");
+};
+
+const { exec } = require("child_process");
+
+process.stdin.on("data", (d) => {
+  const arr = String(d).split("\n");
+
+  arr
+    .map((x) => stripANSI(x))
+    .forEach((v, i, a) => {
+      command = process.argv
+        .slice(2)
+        .map((x) => {
+          if (x.trim().split(" ").length > 1) {
+            return `"${x}"`; // keep strings as strings
+          }
+          return x;
+        })
+        .join(" ")
+        .replaceAll(/%v/g, v)
+        .replaceAll(/%i/g, i)
+        .replaceAll(/%a/g, a.join(" "));
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        if (stderr) {
+          console.error(stderr);
+          return;
+        }
+        console.log(stdout);
+      });
+    });
+  //process.stdout.write(`${JSON.stringify(String(d).split("\n"))}`);
+});
