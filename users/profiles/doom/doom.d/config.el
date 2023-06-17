@@ -124,11 +124,27 @@
  '(rainbow-delimiters-depth-7-face :foreground "#75FFD6")
  '(rainbow-delimiters-depth-8-face :foreground "#2996F5")
  '(rainbow-delimiters-depth-9-face :foreground "#FFFB7A")
+ '(outline-1 :font "Cubano:pixelsize=32")
+ '(outline-2 :font "Cubano:pixelsize=30")
+ '(outline-3 :font "Cubano:pixelsize=28")
+ '(outline-4 :font "Cubano:pixelsize=28")
+ '(outline-5 :font "Cubano:pixelsize=28")
+ '(outline-6 :font "Cubano:pixelsize=28")
+ '(outline-7 :font "Cubano:pixelsize=28")
+ '(outline-8 :font "Cubano:pixelsize=28")
  )
 
-;(setq
-; doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
-; doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
+; https://github.com/doomemacs/doomemacs/issues/5948#issuecomment-1004253858
+(setq
+ normal-font (cl-find-if #'doom-font-exists-p
+                         '(
+                           "mononoki"
+                           "JetBrainsMono Nerd Font"
+                           "NotoSerif Nerd Font"
+                           "monospace")))
+(setq
+ doom-font      (font-spec :family normal-font :size 24)
+ doom-big-font  (font-spec :family normal-font :size 32))
 
 (setq org-export-headline-levels 512)
 
@@ -136,7 +152,7 @@
 
 (setq org-image-actual-width 500)
 
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 (setq delete-by-moving-to-trash t)           ; Delete files to trash
 (setq tab-width 4)                            ; Set width for tabs
@@ -186,6 +202,15 @@
   "Go to home"
   (interactive)
   (dired "~"))
+
+(defun doc ()
+  "Go to home"
+  (interactive)
+  (dired "~/Documents"))
+(defun docs ()
+  "Go to home"
+  (interactive)
+  (dired "~/Documents"))
 
 (defun yt ()
   "Go to yt scripts"

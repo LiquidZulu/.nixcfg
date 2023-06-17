@@ -187,16 +187,33 @@ Sets inline images to be 500 wide
  '(rainbow-delimiters-depth-7-face :foreground "#75FFD6")
  '(rainbow-delimiters-depth-8-face :foreground "#2996F5")
  '(rainbow-delimiters-depth-9-face :foreground "#FFFB7A")
+ '(outline-1 :font "Cubano:pixelsize=32")
+ '(outline-2 :font "Cubano:pixelsize=30")
+ '(outline-3 :font "Cubano:pixelsize=28")
+ '(outline-4 :font "Cubano:pixelsize=28")
+ '(outline-5 :font "Cubano:pixelsize=28")
+ '(outline-6 :font "Cubano:pixelsize=28")
+ '(outline-7 :font "Cubano:pixelsize=28")
+ '(outline-8 :font "Cubano:pixelsize=28")
  )
 #+end_src
 
 ** Font stuff
 *** Font-Family
 #+begin_src elisp
-;(setq
-; doom-font      (font-spec :family "mononoki Nerd Font" :size 24)
-; doom-big-font  (font-spec :family "mononoki Nerd Font" :size 32))
+; https://github.com/doomemacs/doomemacs/issues/5948#issuecomment-1004253858
+(setq
+ normal-font (cl-find-if #'doom-font-exists-p
+                         '(
+                           "mononoki"
+                           "JetBrainsMono Nerd Font"
+                           "NotoSerif Nerd Font"
+                           "monospace")))
+(setq
+ doom-font      (font-spec :family normal-font :size 24)
+ doom-big-font  (font-spec :family normal-font :size 32))
 #+end_src
+
 ** Org settings
 *** headline levels
 Makes it so that I can style exported html, no clue why it isn't higher by default.
@@ -216,7 +233,7 @@ Set image width to 500
 ** line number style
 This determines the style of line numbers in effect. If set to =nil=, line numbers are disabled. For relative line numbers, set this to =relative=.
 #+begin_src elisp
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 #+end_src
 
 ** various misc setings
@@ -296,7 +313,17 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   (interactive)
   (dired "~"))
 #+end_src
-
+** Goto Documents
+#+begin_src elisp
+(defun doc ()
+  "Go to home"
+  (interactive)
+  (dired "~/Documents"))
+(defun docs ()
+  "Go to home"
+  (interactive)
+  (dired "~/Documents"))
+#+end_src
 ** Goto YouTube scripts
 #+begin_src elisp
 (defun yt ()

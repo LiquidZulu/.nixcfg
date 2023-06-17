@@ -11,7 +11,8 @@
     editing.blender
     #editing.natron # broken right now, using distrobox instead
 
-    # Anything to do with git, except git itself which is users.profiles.git
+    # Anything to do with git, ~except git itself which is users.profiles.git~
+    git.git
     git.github-desktop
 
     # Scripts and shells
@@ -27,6 +28,7 @@
     scripts.fzf
     scripts.gdu
     scripts.hollywood
+    scripts.rg
     scripts.xmessage
 
     # Terminal emulator(s)
@@ -80,9 +82,13 @@
     tools.libtool
     tools.libuuid
     tools.ngrok
+    tools.gpg
 
     # Drivers
     drivers.printer
+
+    # Languages
+    languages.sqlite
 
     # Misc
     ledger
