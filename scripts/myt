@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+// multi yt
+// Example: myt "https://link_1" "description.mp4" "https://link_2" "description.mkv" ...
+
+// Dependencies
+const { spawn } = require("child_process");
+
+// Get arguments
+const ARGS = process.argv.slice(2);
+
+// Utility function for readability
+const even = (x) => !(x % 2);
+
+// Validation of descriptions
+if (!even(ARGS.length))
+  throw new Error(
+    'You must provide a description for all links\nExample: myt "https://link_1" "description.mp4" "https://link_2" "description.mkv" ...'
+  );
+
+// Setting up the list of links
+let LINKS = [];
+
+// Generate proompt
+for (let i = 0; i < ARGS.length; i += 2) {
+  LINKS.push([ARGS[i], ARGS[i + 1]]);
+}
+
+// Run the proompts
+for (let i = 0; i < LINKS.length; ++i) {
+  const child = spawn("yt-dlp", [LINKS[i][0], "-o", LINKS[i][1]]);
+
+  child.stdout.setEncoding("utf8");
+  child.stderr.setEncoding("utf8");
+
+  child.stdout.on("data", console.log);
+  child.stderr.on("data", console.error);
+}
