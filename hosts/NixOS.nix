@@ -71,6 +71,7 @@
 
     # Task Management
     htop
+    nvtop
 
     # Package Managers
     package-managers.apx
