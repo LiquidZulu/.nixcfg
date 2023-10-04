@@ -334,7 +334,53 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   "Go to course scripts"
   (interactive)
   (dired "~/Documents/youtube-scripts/courses"))
+
+(defun appeals ()
+  "Go to scripts/appeals"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/appeals"))
+(defun scripts/appeals ()
+  "Go to scripts/appeals"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/appeals"))
+
+(defun essays ()
+  "Go to scripts/essays"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/essays"))
+(defun scripts/essays ()
+  "Go to scripts/essays"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/essays"))
+
+(defun media-analysis ()
+  "Go to scripts/media-analysis"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/media-analysis"))
+(defun scripts/media-analysis ()
+  "Go to scripts/media-analysis"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/media-analysis"))
+
+(defun news ()
+  "Go to scripts/news"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/news"))
+(defun scripts/news ()
+  "Go to scripts/news"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/news"))
+
+(defun responses ()
+  "Go to scripts/responses"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/responses"))
+(defun scripts/responses ()
+  "Go to scripts/responses"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/responses"))
 #+end_src
+
 ** Goto Notes
 #+begin_src elisp
 (defun notes ()
@@ -355,6 +401,13 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   (dired "~/Documents/liquidzulu.github.io")
   (vterm))
 #+end_src
+** Goto xyzzy
+#+begin_src elisp
+(defun xyzzy ()
+  "Go to xyzzy repo"
+  (interactive)
+  (dired "~/Documents/xyzzy"))
+#+end_src
 
 ** Goto capsaicin
 #+begin_src elisp
@@ -362,6 +415,29 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
   "Go to capsaicin repo"
   (interactive)
   (dired "~/Documents/capsaicin"))
+#+end_src
+
+** GOTO scratch buffer
+#+begin_src elisp
+(defun scratch/org ()
+  "Go to the org scratch"
+  (interactive)
+  (switch-to-buffer (find-file-noselect "~/Documents/xyzzy/scratch/scratch.org" nil nil)))
+#+end_src
+** goto git repos
+#+begin_src elisp
+(defun github ()
+  "Go to git repos"
+  (interactive)
+  (dired "~/Documents/github"))
+#+end_src
+
+** GOTO writing
+#+begin_src elisp
+(defun writing ()
+  "Go to writing repo"
+  (interactive)
+  (dired "~/Documents/github/writing"))
 #+end_src
 
 * Key Mapping
@@ -417,6 +493,29 @@ I use [[https://colemakmods.github.io/mod-dh/][Colemak-DHm]] -- my specific layo
 #+begin_src elisp
 (map! :map markdown-mode-map
       "M-n" #'backward-word) ; used to be markdown-next-link, which breaks the locomotion
+
+(map!
+ :map rust-mode-map
+ :map python-mode-map
+ :map javascript-mode-map
+ "C-c C-c C-c"  #'comment-region
+ "C-c C-c C-u"  #'uncomment-region)
+#+end_src
+* abbreviations
+#+begin_src elisp
+(define-abbrev-table 'global-abbrev-table '(
+    ("teh" "the")
+    ("acommodate" "accommodate")
+    ("accomodate" "accommodate")
+    ("acomodate" "accommodate")
+    ("ceterus" "ceteris")
+    ("cetirus" "ceteris")
+    ("addd" "add")
+    ("adddd" "add")
+    ("_tm" "™")
+    ))
+
+(setq-default abbrev-mode t)
 #+end_src
 
 * Major modes
@@ -433,14 +532,15 @@ I basically only use UTF-8 so it takes up space for no reason most of the time.
                           (eq buffer-file-coding-system 'utf-8)))))
 (add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 #+end_src
-* Languages
+* LSP stuff
 ** Babel
 #+begin_src elisp
 (org-babel-do-load-languages
       'org-babel-load-languages
       '(
         (C . t)
-        (js . t)))
+        (js . t)
+        (rs . t)))
 #+end_src
 
 ** Astro.js
@@ -480,7 +580,6 @@ Enable prettier
       (append '((".*\\.pyx\\'" . cython-mode))
               auto-mode-alist))
 #+end_src
-
 * Package Config
 
 ** ox-json
@@ -491,4 +590,9 @@ Enable prettier
 ~For tables of contents within orgmode so I dont have to look at md anymore~ This didnt work and was fairly bloaty, no clue what went wrong hopefully I can fix at some point
 #+begin_src elisp
                                         ;(add-hook 'org-mode-hook #'org-make-toc-mode) ; automatically update toc
+#+end_src
+** EAF
+#+begin_src elisp
+; https://github.com/emacs-eaf/emacs-application-framework/discussions/475#discussioncomment-3035161
+
 #+end_src

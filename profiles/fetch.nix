@@ -1,3 +1,3 @@
 { config, lib, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ neofetch ];
+  environment.systemPackages = with pkgs; [ neofetch onefetch ];
 }

@@ -62,5 +62,14 @@
 (package! prettier-js)
 (package! fish-mode)
 (package! cython-mode)
-(provide 'packages)
+(package! nushell-mode :recipe (:host github :repo "mkkrp/nushell-mode"))
+;(package! rustic)
+;(straight-use-package
+;  '(eaf
+;    :type git
+;    :host github
+;    :repo "emacs-eaf/emacs-application-framework"
+;    :files ("eaf.el" "eaf.py" "extension" "core" "img" "sync-eaf-resources.py")))
+
+;(use-package eaf)
 ;;; packages.el ends here

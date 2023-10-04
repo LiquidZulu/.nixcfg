@@ -1,4 +1,6 @@
-{ config, lib, pkgs, self, ... }: {
+{ config, lib, pkgs, self, ... }:
+let inherit (lib) fileContents;
+in {
   imports = [ ./common.nix ];
 
   environment = {

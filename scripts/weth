@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+
+# A wrapper for a wrapper for wego
+
+import sys
+import subprocess
+
+v = 1 << 0
+V = 1 << 1
+
+FLAGS = [
+    [
+        'v',
+        'verbose'
+    ],
+    [
+        'V',
+        'more verboserer'
+    ]
+]
+
+def getFlags(flagStr):
+
+    f = 0
+
+    for i in range(len(FLAGS)):
+        if flagStr.find(FLAGS[i][0]) != -1:
+            f |= 1 << i
+
+    return f
+
+# -> ( flags: int, location: str )
+def getArgs(argv):
+
+    # argv = ['/.../weth', '-flags', 'Location']
+    # argv = ['/.../weth', 'Location']
+    # argv = ['/.../weth']
+
+    if len(argv) == 1:
+        return ( 0, '' )
+
+    if argv[1].startswith('-'):
+        if len(argv) == 2:
+            return ( getFlags(argv[1]), '' )
+        return ( getFlags(argv[1]), argv[2] )
+    return ( 0, argv[1] )
+
+def main():
+
+    flags, location = getArgs(sys.argv)
+
+    if flags == 0:
+        subprocess.run(f'curl -s wttr.in/{location} | head -n 6', shell=True)
+        sys.exit(1)
+
+    if flags & v != 0:
+        subprocess.run(f'curl -s wttr.in/{location}', shell=True)
+        sys.exit(1)
+
+    if flags & V != 0:
+        subprocess.run(f'curl -s v2.wttr.in/{location}', shell=True)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

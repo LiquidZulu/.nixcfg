@@ -1,15 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{ config, lib, pkgs, ... }: {
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
     # Doom Dependencies
     git
-    (ripgrep.override {withPCRE2 = true;})
+    (ripgrep.override { withPCRE2 = true; })
     gnutls
 
     # Doom Optional Dependencies
@@ -109,7 +104,7 @@
         pname = "nushell-mode";
         ename = "nushell-mode";
         version = "0.1.0";
-        buildInputs = [];
+        buildInputs = [ ];
         src = pkgs.fetchFromGitHub {
           owner = "azzamsa";
           repo = "emacs-nushell";

@@ -28,18 +28,21 @@
     scripts.fzf
     scripts.gdu
     scripts.hollywood
+    scripts.pomodoro
     scripts.rg
     scripts.xmessage
+    scripts.zoxide
 
     # Terminal emulator(s)
+    terminal.alacritty
     terminal.kitty
 
     # Web
     browsers
     torrent
 
-    # Chat applications
-    discord
+    # VOIP applications
+    voip
 
     # File browser(s)
     dolphin
@@ -80,24 +83,30 @@
 
     # Tools
     tools.cmake
+    tools.lefthook
     tools.libtool
     tools.libuuid
     tools.ngrok
     tools.gpg
+    tools.pkg-config
 
     # Drivers
     drivers.printer
 
     # Languages
+    languages.javascript
     languages.sqlite
+    languages.python
+    languages.rust
 
     # Misc
     ledger
     vcv
-    python
     openai
     cuda
     wine
+    audio
+    io
   ]) ++ [
     #/etc/nixos/hardware-configuration.nix
   ];
@@ -235,7 +244,7 @@
 
       # Allow insecure packages
       permittedInsecurePackages = [
-        "openssl-1.1.1u" # for some reason they are shipping an out of date openssl
+        "openssl-1.1.1v" # for some reason they are shipping an out of date openssl
       ];
     };
 

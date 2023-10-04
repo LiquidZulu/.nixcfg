@@ -221,6 +221,51 @@
   (interactive)
   (dired "~/Documents/youtube-scripts/courses"))
 
+(defun appeals ()
+  "Go to scripts/appeals"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/appeals"))
+(defun scripts/appeals ()
+  "Go to scripts/appeals"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/appeals"))
+
+(defun essays ()
+  "Go to scripts/essays"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/essays"))
+(defun scripts/essays ()
+  "Go to scripts/essays"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/essays"))
+
+(defun media-analysis ()
+  "Go to scripts/media-analysis"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/media-analysis"))
+(defun scripts/media-analysis ()
+  "Go to scripts/media-analysis"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/media-analysis"))
+
+(defun news ()
+  "Go to scripts/news"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/news"))
+(defun scripts/news ()
+  "Go to scripts/news"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/news"))
+
+(defun responses ()
+  "Go to scripts/responses"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/responses"))
+(defun scripts/responses ()
+  "Go to scripts/responses"
+  (interactive)
+  (dired "~/Documents/youtube-scripts/scripts/responses"))
+
 (defun notes ()
   "Go to notes"
   (interactive)
@@ -236,10 +281,30 @@
   (dired "~/Documents/liquidzulu.github.io")
   (vterm))
 
+(defun xyzzy ()
+  "Go to xyzzy repo"
+  (interactive)
+  (dired "~/Documents/xyzzy"))
+
 (defun capsaicin ()
   "Go to capsaicin repo"
   (interactive)
   (dired "~/Documents/capsaicin"))
+
+(defun scratch/org ()
+  "Go to the org scratch"
+  (interactive)
+  (switch-to-buffer (find-file-noselect "~/Documents/xyzzy/scratch/scratch.org" nil nil)))
+
+(defun github ()
+  "Go to git repos"
+  (interactive)
+  (dired "~/Documents/github"))
+
+(defun writing ()
+  "Go to writing repo"
+  (interactive)
+  (dired "~/Documents/github/writing"))
 
 ;(setq w32-apps-modifier 'hyper)
 ;(setq w32-lwindow-modifier 'super)
@@ -288,6 +353,27 @@
 (map! :map markdown-mode-map
       "M-n" #'backward-word) ; used to be markdown-next-link, which breaks the locomotion
 
+(map!
+ :map rust-mode-map
+ :map python-mode-map
+ :map javascript-mode-map
+ "C-c C-c C-c"  #'comment-region
+ "C-c C-c C-u"  #'uncomment-region)
+
+(define-abbrev-table 'global-abbrev-table '(
+    ("teh" "the")
+    ("acommodate" "accommodate")
+    ("accomodate" "accommodate")
+    ("acomodate" "accommodate")
+    ("ceterus" "ceteris")
+    ("cetirus" "ceteris")
+    ("addd" "add")
+    ("adddd" "add")
+    ("_tm" "™")
+    ))
+
+(setq-default abbrev-mode t)
+
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 
@@ -301,7 +387,8 @@
       'org-babel-load-languages
       '(
         (C . t)
-        (js . t)))
+        (js . t)
+        (rs . t)))
 
 (define-derived-mode astro-mode web-mode "astro")
 (setq auto-mode-alist
@@ -332,3 +419,5 @@
 (require 'ox-json)
 
                                         ;(add-hook 'org-mode-hook #'org-make-toc-mode) ; automatically update toc
+
+; https://github.com/emacs-eaf/emacs-application-framework/discussions/475#discussioncomment-3035161

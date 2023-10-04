@@ -1,6 +1,8 @@
 #+title: Fish Config
 #+PROPERTY: header-args :tangle ~/.config/fish/config.fish
 
+I no longer use fish
+
 * Greeting
 #+begin_src fish
 set fish_greeting ""
@@ -89,6 +91,15 @@ alias yd="yarn dev"
 ** capsaicin
 #+begin_src fish
 alias cap="$HOME/Documents/capsaicin/capsaicin"
+#+end_src
+
+** Directory shortcuts
+#+begin_src fish
+alias cdl="echo \"cdbr cdlectures cdvs\""
+
+alias cdbr="cd $HOME/Videos/yt/b-roll"
+alias cdlectures="cd $HOME/Videos/yt/lectures"
+alias cdvs="cd $HOME/Videos/yt/vid-store"
 #+end_src
 
 * Key Bindings
