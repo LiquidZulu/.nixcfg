@@ -4,5 +4,6 @@
     librewolf
     tor-browser-bundle-bin
     brave
+    freetube
   ];
 }
