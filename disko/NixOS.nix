@@ -17,10 +17,11 @@
           };
         };
         swap = {
-          size = "10GiB";
+          size = "70GiB";
           content = {
             type = "swap";
             randomEncryption = true;
+            resumeDevice = true;
           };
         };
         luks = {
