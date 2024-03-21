@@ -109,6 +109,7 @@
           NixOS = { };
         };
         importables = rec {
+          inherit inputs;
           profiles = digga.lib.rakeLeaves ./profiles // {
             users = digga.lib.rakeLeaves ./users;
           };
@@ -122,6 +123,7 @@
         imports = [ (digga.lib.importExportableModules ./users/modules) ];
         modules = [ nix-doom-emacs.hmModule ];
         importables = rec {
+          inherit inputs;
           profiles = digga.lib.rakeLeaves ./users/profiles;
           suites = with profiles; rec { base = [ direnv git ]; };
         };
