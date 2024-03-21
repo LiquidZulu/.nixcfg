@@ -115,6 +115,7 @@
         };
         importables = rec {
           inherit inputs;
+          diskoProfiles = digga.lib.rakeLeaves ./disko;
           profiles = digga.lib.rakeLeaves ./profiles // {
             users = digga.lib.rakeLeaves ./users;
           };
