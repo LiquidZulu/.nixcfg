@@ -8,7 +8,7 @@
       partitions = {
         ESP = {
           priority = 1;
-          size = "512MiB";
+          size = "540MB";
           type = "EF00";
           content = {
             type = "filesystem";
@@ -18,7 +18,7 @@
           };
         };
         swap = {
-          size = "70GiB";
+          size = "70GB";
           content = {
             type = "swap";
             randomEncryption = true;
