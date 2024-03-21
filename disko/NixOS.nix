@@ -1,5 +1,5 @@
-{ disko, ... }: {
-  imports = [ disko.module ];
+{
+  imports = [ ./module.nix ];
   disko.devices.disk.sda = {
     type = "disk";
     device = "/dev/sda";
