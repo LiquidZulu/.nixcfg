@@ -58,6 +58,11 @@
     nvfetcher.inputs.nixpkgs.follows = "nixos";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    disko = {
+      url = "github:nix-community/disko/v1.4.0";
+      inputs.nixpkgs.follows = "nixos";
+    };
   };
 
   outputs = { self, digga, nixos, home, nixos-hardware, nur, agenix, nvfetcher
@@ -109,6 +114,8 @@
           NixOS = { };
         };
         importables = rec {
+          inherit inputs;
+          diskoProfiles = digga.lib.rakeLeaves ./disko;
           profiles = digga.lib.rakeLeaves ./profiles // {
             users = digga.lib.rakeLeaves ./users;
           };
@@ -122,6 +129,7 @@
         imports = [ (digga.lib.importExportableModules ./users/modules) ];
         modules = [ nix-doom-emacs.hmModule ];
         importables = rec {
+          inherit inputs;
           profiles = digga.lib.rakeLeaves ./users/profiles;
           suites = with profiles; rec { base = [ direnv git ]; };
         };

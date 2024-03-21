@@ -146,6 +146,27 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixos"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709682352,
+        "narHash": "sha256-71S/64RbyADT6FUVJq4WLiNbmcxFvgMsSihf/C2Hgno=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "ad5e8bd14df2e6bdb836582577dc163318617738",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "v1.4.0",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "doom-emacs": {
       "flake": false,
       "locked": {
@@ -803,6 +824,7 @@
         "agenix": "agenix",
         "deploy": "deploy",
         "digga": "digga",
+        "disko": "disko",
         "flake-utils-plus-fix": "flake-utils-plus-fix",
         "home": "home",
         "latest": "latest",
