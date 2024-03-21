@@ -131,6 +131,7 @@
         device = "/dev/sda";
         useOSProber = true;
         enableCryptodisk = true;
+        efiSupport = true;
       };
     };
 
