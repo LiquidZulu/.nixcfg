@@ -58,6 +58,11 @@
     nvfetcher.inputs.nixpkgs.follows = "nixos";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    disko = {
+      url = "nix-community/disko/v1.4.0";
+      inputs.nixpkgs.follows = "nixos";
+    };
   };
 
   outputs = { self, digga, nixos, home, nixos-hardware, nur, agenix, nvfetcher
