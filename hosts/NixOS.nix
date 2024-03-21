@@ -1,5 +1,4 @@
-{ config, lib, pkgs, suites, profiles, diskoProfiles, ... }: {
-
+{ config, lib, suites, profiles, diskoProfiles, ... }: {
   imports = lib.concatLists [
     suites.base
     [
