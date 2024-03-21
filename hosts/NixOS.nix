@@ -1,6 +1,7 @@
-{ config, lib, pkgs, suites, profiles, ... }: {
+{ config, lib, pkgs, suites, profiles, diskoProfiles, ... }: {
 
   imports = suites.base ++ (with profiles; [
+    diskoProfiles.NixOS
 
     # File editing
     editing.gimp
@@ -137,20 +138,6 @@
     supportedFilesystems = [ "ntfs" ];
 
     initrd = {
-
-      # Setup keyfile
-      secrets = { "/crypto_keyfile.bin" = null; };
-
-      # LUKS
-      luks = {
-        devices = {
-          "luks-62e74ccd-db85-48e2-9e5d-5f3b35359739" = {
-            keyFile = "/crypto_keyfile.bin";
-            device = "/dev/disk/by-uuid/62e74ccd-db85-48e2-9e5d-5f3b35359739";
-          };
-        };
-      };
-
       availableKernelModules =
         [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
       kernelModules = [ ];
@@ -159,16 +146,6 @@
     kernelModules = [ "kvm-amd" "wl" ];
     extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
   };
-
-  # Filesystems
-  fileSystems = {
-    "/" = {
-      fsType = "ext4";
-      device = "/dev/disk/by-uuid/85bb9e6a-aa2c-4344-9e98-c721288cba3e";
-    };
-  };
-
-  swapDevices = [ ];
 
   # Networking
   networking = {
