@@ -1,115 +1,127 @@
 { config, lib, pkgs, suites, profiles, diskoProfiles, ... }: {
 
-  imports = suites.base ++ (with profiles; [
-    diskoProfiles.NixOS
+  imports = lib.concatLists [
+    suites.base
+    [
+      #/etc/nixos/hardware-configuration.nix
+      diskoProfiles.NixOS
+    ]
+    (with profiles.editing; [
+      # File editing
+      #natron # broken right now, using distrobox instead
+      gimp
+      writing
+      kdenlive
+      audacity
+      lmms
+      blender
+    ])
+    (with profiles.git; [
+      # Anything to do with git, ~except git itself which is users.profiles.git~
+      git
+      github-desktop
+    ])
+    (with profiles.terminal; [
+      # Terminal emulator(s)
+      alacritty
+      kitty
+    ])
+    (with profiles; [
+      # Scripts and shells
+      sh
+      scripts.bat
+      scripts.cbonsai
+      scripts.cmatrix
+      #scripts.colorscript
+      scripts.exa
+      scripts.thefuck
+      scripts.fd
+      scripts.file
+      scripts.fzf
+      scripts.gdu
+      scripts.hollywood
+      scripts.pomodoro
+      scripts.rg
+      scripts.xmessage
+      scripts.zoxide
+    ])
+    (with profiles.package-managers; [
+      # Package Managers
+      apx
+      yarn
+      pip
+    ])
+    (with profiles.tools; [
+      # Tools
+      cmake
+      lefthook
+      libtool
+      libuuid
+      ngrok
+      gpg
+      pkg-config
+    ])
+    (with profiles.drivers;
+      [
+        # Drivers
+        printer
+      ])
+    (with profiles.languages; [
+      # Languages
+      javascript
+      sqlite
+      python
+      rust
+    ])
+    (with profiles; [
+      # Web
+      browsers
+      torrent
 
-    # File editing
-    editing.gimp
-    editing.writing
-    editing.kdenlive
-    editing.audacity
-    editing.lmms
-    editing.blender
-    #editing.natron # broken right now, using distrobox instead
+      # VOIP applications
+      voip
 
-    # Anything to do with git, ~except git itself which is users.profiles.git~
-    git.git
-    git.github-desktop
+      # File browser(s)
+      dolphin
 
-    # Scripts and shells
-    sh
-    scripts.bat
-    scripts.cbonsai
-    scripts.cmatrix
-    #scripts.colorscript
-    scripts.exa
-    scripts.thefuck
-    scripts.fd
-    scripts.file
-    scripts.fzf
-    scripts.gdu
-    scripts.hollywood
-    scripts.pomodoro
-    scripts.rg
-    scripts.xmessage
-    scripts.zoxide
+      # Media recording/playback
+      flameshot
+      obs
+      vlc
+      mpv
 
-    # Terminal emulator(s)
-    terminal.alacritty
-    terminal.kitty
+      # Run launcher
+      launcher
 
-    # Web
-    browsers
-    torrent
+      # Networking
+      networking
+      vpn
 
-    # VOIP applications
-    voip
+      # Window Manager
+      wm
 
-    # File browser(s)
-    dolphin
+      # Download scripts
+      ytdl
 
-    # Media recording/playback
-    flameshot
-    obs
-    vlc
-    mpv
+      # Fonts
+      fonts
 
-    # Run launcher
-    launcher
+      # Fetch commands
+      fetch
 
-    # Networking
-    networking
-    vpn
+      # Task Management
+      htop
+      nvtop
 
-    # Window Manager
-    wm
-
-    # Download scripts
-    ytdl
-
-    # Fonts
-    fonts
-
-    # Fetch commands
-    fetch
-
-    # Task Management
-    htop
-    nvtop
-
-    # Package Managers
-    package-managers.apx
-    package-managers.yarn
-    package-managers.pip
-
-    # Tools
-    tools.cmake
-    tools.lefthook
-    tools.libtool
-    tools.libuuid
-    tools.ngrok
-    tools.gpg
-    tools.pkg-config
-
-    # Drivers
-    drivers.printer
-
-    # Languages
-    languages.javascript
-    languages.sqlite
-    languages.python
-    languages.rust
-
-    # Misc
-    ledger
-    vcv
-    openai
-    cuda
-    wine
-    audio
-    io
-  ]) ++ [
-    #/etc/nixos/hardware-configuration.nix
+      # Misc
+      ledger
+      vcv
+      openai
+      cuda
+      wine
+      audio
+      io
+    ])
   ];
 
   # Misc
