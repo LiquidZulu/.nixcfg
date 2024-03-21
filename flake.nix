@@ -60,7 +60,7 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     disko = {
-      url = "nix-community/disko/v1.4.0";
+      url = "github:nix-community/disko/v1.4.0";
       inputs.nixpkgs.follows = "nixos";
     };
   };
