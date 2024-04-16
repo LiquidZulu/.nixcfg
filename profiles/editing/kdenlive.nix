@@ -1,4 +1,5 @@
 { config, lib, pkgs, ... }: {
+
   environment.systemPackages = (with pkgs; [
     #libsForQt5.kdenlive
     (libsForQt5.kdenlive.overrideAttrs
@@ -6,7 +7,8 @@
     glaxnimate
     mediainfo
     mlt
-  ])
+  ]);
+  #
   #
   # ++ (
   #   # https://lazamar.co.uk/nix-versions/?package=kdenlive&version=22.08.3&fullName=kdenlive-22.08.3&keyName=libsForQt5.kdenlive&revision=6adf48f53d819a7b6e15672817fa1e78e5f4e84f&channel=nixos-22.11#instructions
@@ -19,5 +21,4 @@
   #     }) { inherit (pkgs) system; };
   #   in [ nix_pkgs_with_kdenlive_22.kdenlive ])
   #
-  ;
 }

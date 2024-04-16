@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [ cudatoolkit ];
+
   # See https://nixos.wiki/wiki/Nvidia
   services.xserver.videoDrivers = [
     "nvidia" # https://github.com/NixOS/nixpkgs/issues/80936#issuecomment-1003784682
