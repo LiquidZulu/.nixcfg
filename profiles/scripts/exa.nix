@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [ exa ];
+  environment.systemPackages = with pkgs; [ eza ];
 }

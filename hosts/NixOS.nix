@@ -245,6 +245,7 @@
       # Allow insecure packages
       permittedInsecurePackages = [
         "openssl-1.1.1v" # for some reason they are shipping an out of date openssl
+        "electron-25.9.0"
       ];
     };
 

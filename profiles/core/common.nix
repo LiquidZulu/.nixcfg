@@ -18,7 +18,7 @@ in {
       git
       bottom
       jq
-      manix
+      # manix
       moreutils
       nix-index
       nmap
@@ -68,9 +68,9 @@ in {
       nepl = "n repl '<nixpkgs>'";
       srch = "ns nixos";
       orch = "ns override";
-      mn = ''
-        manix "" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | sk --preview="manix '{}'" | xargs manix
-      '';
+      # mn = ''
+      #   manix "" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | sk --preview="manix '{}'" | xargs manix
+      # '';
       top = "btm";
 
       # sudo
@@ -80,7 +80,7 @@ in {
     };
   };
 
-  fonts.fonts = with pkgs; [ powerline-fonts dejavu_fonts nerdfonts ];
+  fonts.packages = with pkgs; [ powerline-fonts dejavu_fonts nerdfonts ];
 
   nix = {
     # Improve nix store disk usage

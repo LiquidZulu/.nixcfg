@@ -5,16 +5,16 @@ channels: final: prev: {
     cachix dhall discord element-desktop rage nix-index qutebrowser alejandra
     signal-desktop starship deploy-rs;
 
-  haskellPackages = prev.haskellPackages.override (old: {
-    overrides = prev.lib.composeExtensions (old.overrides or (_: _: { }))
-      (hfinal: hprev:
-        let version = prev.lib.replaceStrings [ "." ] [ "" ] prev.ghc.version;
-        in {
-          # same for haskell packages, matching ghc versions
-          inherit (channels.latest.haskell.packages."ghc${version}")
-            haskell-language-server;
-        });
-  });
+  # haskellPackages = prev.haskellPackages.override (old: {
+  #   overrides = prev.lib.composeExtensions (old.overrides or (_: _: { }))
+  #     (hfinal: hprev:
+  #       let version = prev.lib.replaceStrings [ "." ] [ "" ] prev.ghc.version;
+  #       in {
+  #         # same for haskell packages, matching ghc versions
+  #         inherit (channels.latest.haskell.packages."ghc${version}")
+  #           haskell-language-server;
+  #       });
+  # });
 
   # kdenlive = prev.libsForQt5.kdenlive.overrideAttrs (_: previousAttrs: {
   #   name = "kdenlive-22.08.3";

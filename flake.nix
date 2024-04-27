@@ -21,7 +21,7 @@
     };
 
     # Track channels with commits tested and built by hydra
-    nixos.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixos.url = "github:nixos/nixpkgs/nixos-23.11";
     latest.url = "github:nixos/nixpkgs/nixos-unstable";
     # For darwin hosts: it can be helpful to track this darwin-specific stable
     # channel equivalent to the `nixos-*` channels for NixOS. For one, these
@@ -37,12 +37,12 @@
     digga.inputs.home-manager.follows = "home";
     digga.inputs.deploy.follows = "deploy";
 
-    # remove this when flake-utils-plus is updated or merges the PR here: https://github.com/gytis-ivaskevicius/flake-utils-plus/compare/master...ravensiris:flake-utils-plus:ravensiris/fix-devshell-legacy-packages
+    # remove this when this PR is merged https://github.com/gytis-ivaskevicius/flake-utils-plus/pull/144
     digga.inputs."flake-utils-plus".follows = "flake-utils-plus-fix";
     "flake-utils-plus-fix".url =
-      "github:ravensiris/flake-utils-plus/7a8d789d4d13e45d20e6826d7b2a1757d52f2e13";
+      "github:lordkekz/flake-utils-plus/b09bd64c0cfd54608f06d060c1a467a14cce2e85";
 
-    home.url = "github:nix-community/home-manager/release-23.05";
+    home.url = "github:nix-community/home-manager/release-23.11";
     home.inputs.nixpkgs.follows = "nixos";
 
     #darwin.url = "github:LnL7/nix-darwin";
