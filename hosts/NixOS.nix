@@ -104,6 +104,7 @@
     vcv
     openai
     cuda
+    gaming
     wine
     audio
     io
