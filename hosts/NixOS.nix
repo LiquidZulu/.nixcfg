@@ -5,7 +5,7 @@
     # File editing
     editing.gimp
     editing.writing
-    editing.kdenlive
+    editing.nle
     editing.audacity
     editing.lmms
     editing.blender
@@ -126,9 +126,16 @@
 
     # Bootloader
     loader = {
+
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
+
       grub = {
+        efiSupport = true;
         enable = true;
-        device = "/dev/sda";
+        device = "nodev";
         useOSProber = true;
         enableCryptodisk = true;
       };
@@ -139,18 +146,18 @@
 
     initrd = {
 
-      # Setup keyfile
-      secrets = { "/crypto_keyfile.bin" = null; };
+      # # Setup keyfile
+      # secrets = { "/crypto_keyfile.bin" = null; };
 
-      # LUKS
-      luks = {
-        devices = {
-          "luks-62e74ccd-db85-48e2-9e5d-5f3b35359739" = {
-            keyFile = "/crypto_keyfile.bin";
-            device = "/dev/disk/by-uuid/62e74ccd-db85-48e2-9e5d-5f3b35359739";
-          };
-        };
-      };
+      # # LUKS
+      # luks = {
+      #   devices = {
+      #     "luks-62e74ccd-db85-48e2-9e5d-5f3b35359739" = {
+      #       keyFile = "/crypto_keyfile.bin";
+      #       device = "/dev/disk/by-uuid/62e74ccd-db85-48e2-9e5d-5f3b35359739";
+      #     };
+      #   };
+      # };
 
       availableKernelModules =
         [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
@@ -163,9 +170,14 @@
 
   # Filesystems
   fileSystems = {
+
+    "/boot/efi" = {
+      fsType = "vfat";
+      device = "/dev/disk/by-partlabel/boot";
+    };
     "/" = {
       fsType = "ext4";
-      device = "/dev/disk/by-uuid/85bb9e6a-aa2c-4344-9e98-c721288cba3e";
+      device = "/dev/disk/by-partlabel/root";
     };
   };
 
