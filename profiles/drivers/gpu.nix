@@ -14,17 +14,13 @@
     };
 
     nvidia = {
-
-      # Modesetting is needed for most wayland compositors
       modesetting.enable = true;
-
-      # Use the open source version of the kernel module
-      open = true;
-
-      # Enable the nvidia settings menu
+      powerManagement = {
+        enable = false;
+        finegrained = false;
+      };
+      open = false;
       nvidiaSettings = true;
-
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };

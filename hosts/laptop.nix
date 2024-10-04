@@ -2,18 +2,10 @@
 
   imports = suites.base ++ (with profiles; [
 
-    # Drivers
-    drivers.gpu
-    drivers.printer
-
     # File editing
     editing.gimp
     editing.writing
-    editing.nle
     editing.audacity
-    editing.lmms
-    editing.blender
-    #editing.natron # broken right now, using distrobox instead
 
     # Anything to do with git, ~except git itself which is users.profiles.git~
     git.git
@@ -103,11 +95,6 @@
     # Misc
     ledger
     lshw
-    vcv
-    openai
-    cuda
-    gaming
-    wine
     audio
     io
   ]) ++ [
@@ -278,5 +265,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # ( e.g. man configuration.nix or on https://nixos.org/nixos/options.html ).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

@@ -7,5 +7,6 @@
     mediainfo
     mlt
     davinci-resolve
+    ffmpeg
   ]);
 }
