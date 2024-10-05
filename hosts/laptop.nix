@@ -171,7 +171,7 @@
   };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/a2d98330-73f94591-a547-195e71c76487"; }];
+    [{ device = "/dev/disk/by-uuid/a2d98330-73f9-4591-a547-195e71c76487"; }];
 
   # Networking
   networking = {
