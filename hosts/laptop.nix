@@ -96,7 +96,6 @@
     ledger
     lshw
     audio
-    io
   ]) ++ [
     #/etc/nixos/hardware-configuration.nix
   ];
@@ -160,17 +159,19 @@
   # Filesystems
   fileSystems = {
 
-    "/boot/efi" = {
+    "/boot" = {
       fsType = "vfat";
-      device = "/dev/disk/by-partlabel/boot";
+      device = "/dev/disk/by-uuid/739B-F419";
+      options = [ "fmask=0077" "dmask=0077" ];
     };
     "/" = {
       fsType = "ext4";
-      device = "/dev/disk/by-partlabel/root";
+      device = "/dev/disk/by-uuid/b27d1233-b376-4d85-9659-57fe606ebe88";
     };
   };
 
-  swapDevices = [ ];
+  swapDevices =
+    [{ device = "/dev/disk/by-uuid/a2d98330-73f94591-a547-195e71c76487"; }];
 
   # Networking
   networking = {
