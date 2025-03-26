@@ -8,39 +8,38 @@
 }:
 {
   imports = lib.concatLists [
-    suites.nixos.base
     (with profiles.nixos; [
 
       # File editing
-      editing.gimp
-      editing.writing
-      editing.audacity
+      gimp
+      writing
+      audacity
 
       # Anything to do with git, ~except git itself which is users.profiles.git~
-      git.git
-      git.github-desktop
+      git
+      github-desktop
 
       # Scripts and shells
       sh
-      scripts.bat
-      scripts.cbonsai
-      scripts.cmatrix
-      #scripts.colorscript
-      scripts.exa
-      scripts.thefuck
-      scripts.fd
-      scripts.file
-      scripts.fzf
-      scripts.gdu
-      scripts.hollywood
-      scripts.pomodoro
-      scripts.rg
-      scripts.xmessage
-      scripts.zoxide
+      bat
+      cbonsai
+      cmatrix
+      #colorscript
+      exa
+      thefuck
+      fd
+      file
+      fzf
+      gdu
+      hollywood
+      pomodoro
+      rg
+      xmessage
+      zoxide
 
       # Terminal emulator(s)
-      terminal.alacritty
-      terminal.kitty
+      alacritty
+      kitty
 
       # Web
       browsers
@@ -82,24 +81,24 @@
       nvtop
 
       # Package Managers
-      package-managers.apx
-      package-managers.yarn
-      package-managers.pip
+      apx
+      yarn
+      pip
 
       # Tools
-      tools.cmake
-      tools.lefthook
-      tools.libtool
-      tools.libuuid
-      tools.ngrok
-      tools.gpg
-      tools.pkg-config
+      cmake
+      lefthook
+      libtool
+      libuuid
+      ngrok
+      gpg
+      pkg-config
 
       # Languages
-      languages.javascript
-      languages.sqlite
-      languages.python
-      languages.rust
+      javascript
+      sqlite
+      python
+      rust
 
       # Misc
       ledger
@@ -239,7 +238,6 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
