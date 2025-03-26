@@ -1,103 +1,114 @@
-{ config, lib, pkgs, suites, profiles, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  suites,
+  profiles,
+  ...
+}:
+{
+  imports = lib.concatLists [
+    suites.nixos.base
+    (with profiles.nixos; [
 
-  imports = suites.base ++ (with profiles; [
+      # File editing
+      editing.gimp
+      editing.writing
+      editing.audacity
 
-    # File editing
-    editing.gimp
-    editing.writing
-    editing.audacity
+      # Anything to do with git, ~except git itself which is users.profiles.git~
+      git.git
+      git.github-desktop
 
-    # Anything to do with git, ~except git itself which is users.profiles.git~
-    git.git
-    git.github-desktop
+      # Scripts and shells
+      sh
+      scripts.bat
+      scripts.cbonsai
+      scripts.cmatrix
+      #scripts.colorscript
+      scripts.exa
+      scripts.thefuck
+      scripts.fd
+      scripts.file
+      scripts.fzf
+      scripts.gdu
+      scripts.hollywood
+      scripts.pomodoro
+      scripts.rg
+      scripts.xmessage
+      scripts.zoxide
 
-    # Scripts and shells
-    sh
-    scripts.bat
-    scripts.cbonsai
-    scripts.cmatrix
-    #scripts.colorscript
-    scripts.exa
-    scripts.thefuck
-    scripts.fd
-    scripts.file
-    scripts.fzf
-    scripts.gdu
-    scripts.hollywood
-    scripts.pomodoro
-    scripts.rg
-    scripts.xmessage
-    scripts.zoxide
+      # Terminal emulator(s)
+      terminal.alacritty
+      terminal.kitty
 
-    # Terminal emulator(s)
-    terminal.alacritty
-    terminal.kitty
+      # Web
+      browsers
+      torrent
 
-    # Web
-    browsers
-    torrent
+      # VOIP applications
+      voip
 
-    # VOIP applications
-    voip
+      # File browser(s)
+      dolphin
 
-    # File browser(s)
-    dolphin
+      # Media recording/playback
+      flameshot
+      obs
+      vlc
+      mpv
 
-    # Media recording/playback
-    flameshot
-    obs
-    vlc
-    mpv
+      # Run launcher
+      launcher
 
-    # Run launcher
-    launcher
+      # Networking
+      networking
+      vpn
 
-    # Networking
-    networking
-    vpn
+      # Window Manager
+      wm
 
-    # Window Manager
-    wm
+      # Download scripts
+      ytdl
 
-    # Download scripts
-    ytdl
+      # Fonts
+      fonts
 
-    # Fonts
-    fonts
+      # Fetch commands
+      fetch
 
-    # Fetch commands
-    fetch
+      # Task Management
+      htop
+      nvtop
 
-    # Task Management
-    htop
-    nvtop
+      # Package Managers
+      package-managers.apx
+      package-managers.yarn
+      package-managers.pip
 
-    # Package Managers
-    package-managers.apx
-    package-managers.yarn
-    package-managers.pip
+      # Tools
+      tools.cmake
+      tools.lefthook
+      tools.libtool
+      tools.libuuid
+      tools.ngrok
+      tools.gpg
+      tools.pkg-config
 
-    # Tools
-    tools.cmake
-    tools.lefthook
-    tools.libtool
-    tools.libuuid
-    tools.ngrok
-    tools.gpg
-    tools.pkg-config
+      # Languages
+      languages.javascript
+      languages.sqlite
+      languages.python
+      languages.rust
 
-    # Languages
-    languages.javascript
-    languages.sqlite
-    languages.python
-    languages.rust
-
-    # Misc
-    ledger
-    lshw
-    audio
-  ]) ++ [
-    #/etc/nixos/hardware-configuration.nix
+      # Misc
+      ledger
+      lshw
+      audio
+    ])
+    [
+      #/etc/nixos/hardware-configuration.nix
+    ]
   ];
 
   # Misc
@@ -108,8 +119,7 @@
 
     # sysctl settings
     kernel.sysctl = {
-      "vm.max_map_count" =
-        2147483642; # https://www.youtube.com/watch?v=PsHRbfZhgXM
+      "vm.max_map_count" = 2147483642; # https://www.youtube.com/watch?v=PsHRbfZhgXM
     };
 
     # Bootloader
@@ -147,12 +157,20 @@
       #   };
       # };
 
-      availableKernelModules =
-        [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+      availableKernelModules = [
+        "xhci_pci"
+        "ahci"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+      ];
       kernelModules = [ ];
     };
 
-    kernelModules = [ "kvm-amd" "wl" ];
+    kernelModules = [
+      "kvm-amd"
+      "wl"
+    ];
     extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
   };
 
@@ -162,7 +180,10 @@
     "/boot" = {
       fsType = "vfat";
       device = "/dev/disk/by-uuid/739B-F419";
-      options = [ "fmask=0077" "dmask=0077" ];
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
     };
     "/" = {
       fsType = "ext4";
@@ -170,8 +191,7 @@
     };
   };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/a2d98330-73f9-4591-a547-195e71c76487"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/a2d98330-73f9-4591-a547-195e71c76487"; } ];
 
   # Networking
   networking = {
@@ -257,8 +277,7 @@
   };
 
   # Hardware
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

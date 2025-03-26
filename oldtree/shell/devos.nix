@@ -4,14 +4,13 @@
   inputs,
   lib,
   ...
-}: let
-  inherit
-    (pkgs)
+}:
+let
+  inherit (pkgs)
     agenix
     alejandra
     cachix
     editorconfig-checker
-    nixUnstable
     nodePackages
     shfmt
     treefmt
@@ -19,11 +18,15 @@
     nixos-generators
     ;
 
-  pkgWithCategory = category: package: {inherit package category;};
+  pkgWithCategory = category: package: { inherit package category; };
   devos = pkgWithCategory "devos";
   formatter = pkgWithCategory "linter";
-in {
-  imports = ["${extraModulesPath}/git/hooks.nix" ./hooks];
+in
+{
+  imports = [
+    "${extraModulesPath}/git/hooks.nix"
+    ./hooks
+  ];
 
   packages = [
     alejandra
@@ -34,7 +37,6 @@ in {
 
   commands =
     [
-      (devos nixUnstable)
       (devos agenix)
       {
         category = "devos";

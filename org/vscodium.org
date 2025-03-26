@@ -9,7 +9,9 @@
 #+end_src
 
 * Keybindings
-NOTE: I did not write this by hand nor do I imagine such a thing would be particularly enjoyable considering how verbose it is. I rather store it here in case I need to re-use this config elsewhere.
+NOTE: I did not write this by hand nor do I imagine such a thing would
+be particularly enjoyable considering how verbose it is. I rather
+store it here in case I need to re-use this config elsewhere.
 
 #+begin_quote
 Place your key bindings in this file to override the =defaultsauto[]=
