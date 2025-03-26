@@ -1,3 +1,12 @@
-{ config, lib, pkgs, ... }: {
-  environment.systemPackages = with pkgs.cudaPackages; [ cudatoolkit cudnn ];
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs.cudaPackages; [
+    cudatoolkit
+    cudnn
+  ];
 }

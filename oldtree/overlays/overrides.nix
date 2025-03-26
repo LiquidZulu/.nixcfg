@@ -2,8 +2,18 @@ channels: final: prev: {
   __dontExport = true; # overrides clutter up actual creations
 
   inherit (channels.latest)
-    cachix dhall discord element-desktop rage nix-index qutebrowser alejandra
-    signal-desktop starship deploy-rs;
+    cachix
+    dhall
+    discord
+    element-desktop
+    rage
+    nix-index
+    qutebrowser
+    alejandra
+    signal-desktop
+    starship
+    deploy-rs
+    ;
 
   # haskellPackages = prev.haskellPackages.override (old: {
   #   overrides = prev.lib.composeExtensions (old.overrides or (_: _: { }))

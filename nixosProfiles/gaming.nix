@@ -1,3 +1,12 @@
-{ config, lib, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ gamescope steam ];
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [
+    gamescope
+    steam
+  ];
 }

@@ -3,11 +3,12 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
 
   services = {
     xserver = {
-      
+
       # Enable X11 windowing system
       enable = true;
 
@@ -17,4 +18,3 @@
     };
   };
 }
-

@@ -1,10 +1,25 @@
-{ config, lib, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ fish nushell zsh starship ];
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [
+    fish
+    nushell
+    zsh
+    starship
+  ];
 
   programs = {
 
-    fish = { enable = true; };
-    starship = { enable = true; };
+    fish = {
+      enable = true;
+    };
+    starship = {
+      enable = true;
+    };
 
     # Starship Prompt, see: https://nix-community.github.io/home-manager/options.html#opt-programs.starship.settings
     # starship = {

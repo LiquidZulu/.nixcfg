@@ -1,1 +1,9 @@
-{ config, lib, pkgs, ... }: { environment.systemPackages = with pkgs; [ git ]; }
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [ git ];
+}

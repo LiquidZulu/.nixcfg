@@ -1,4 +1,10 @@
-{ config, lib, pkgs, services, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  services,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [ ledger-live-desktop ];

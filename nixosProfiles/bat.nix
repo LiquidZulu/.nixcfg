@@ -1,1 +1,9 @@
-{ config, lib, pkgs, ... }: { environment.systemPackages = with pkgs; [ bat ]; }
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = with pkgs; [ bat ];
+}
