@@ -228,7 +228,7 @@
     };
 
     # Automatic login
-    xserver.displayManager.autoLogin = {
+    displayManager.autoLogin = {
       enable = true;
       user = "liquidzulu";
     };
