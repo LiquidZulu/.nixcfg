@@ -222,9 +222,9 @@
     flatpak.enable = true;
 
     # X11 Keymap
-    xserver = {
+    xserver.xkb = {
       layout = "gb";
-      xkbVariant = "";
+      variant = "";
     };
 
     # Automatic login
