@@ -12,7 +12,12 @@
     nixpkgsUnstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # hm
+
     home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
     # Architecture
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -23,9 +28,21 @@
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
   };
-  outputs = { self, flake-parts, haumea, nixpkgs, easy-hosts, devshell
-    , treefmt-nix, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } ({ ... }:
+
+  outputs =
+    {
+      self,
+      flake-parts,
+      haumea,
+      nixpkgs,
+      home-manager,
+      easy-hosts,
+      devshell,
+      treefmt-nix,
+      ...
+    }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { ... }:
       let
         load = { src }:
           args@{ pkgs, ... }:
@@ -86,10 +103,34 @@
           path = ./hosts;
           onlySystem = "x86_64-linux";
 
-          shared = {
-            specialArgs = { inherit inputs profiles suites; };
-            modules = nixpkgs.lib.concatLists [ suites.nixos.base [ ] ];
-          };
+
+            shared = {
+              specialArgs = {
+                inherit inputs profiles suites;
+              };
+              modules = nixpkgs.lib.concatLists [
+                suites.nixos.base
+                [
+                  home-manager.nixosModules.home-manager
+                  {
+                    home-manager = {
+                      useGlobalPkgs = true;
+                      useUserPackages = true;
+                      users.liquidzulu =
+                        { lib, ... }:
+                        {
+                          imports = lib.concatLists [
+                            suites.home.base
+                            [ profiles.home.doom ]
+                          ];
+
+                          home.stateVersion = "22.11";
+                        };
+                    };
+                  }
+                ]
+              ];
+            };
 
           hosts = {
             NixOS = { class = "nixos"; };
