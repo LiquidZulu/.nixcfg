@@ -1,163 +1,183 @@
 {
-  description = "A highly structured configuration database.";
-
   nixConfig = {
     extra-experimental-features = "nix-command flakes";
-    extra-substituters =
-      [ "https://nrdxp.cachix.org" "https://nix-community.cachix.org" ];
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+    ];
     extra-trusted-public-keys = [
-      "nrdxp.cachix.org-1:Fc5PSqY2Jm1TrWfm88l6cvGWwz3s93c6IOifQWnhNW4="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
-
   inputs = {
+    # nixpkgs
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgsUnstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nix-doom-emacs = {
-      # This is where you get it
-      url = "github:nix-community/nix-doom-emacs";
-      # We're overriding one of the inputs of their flake
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hm
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Track channels with commits tested and built by hydra
-    nixos.url = "github:nixos/nixpkgs/nixos-23.11";
-    latest.url = "github:nixos/nixpkgs/nixos-unstable";
-    # For darwin hosts: it can be helpful to track this darwin-specific stable
-    # channel equivalent to the `nixos-*` channels for NixOS. For one, these
-    # channels are more likely to provide cached binaries for darwin systems.
-    # But, perhaps even more usefully, it provides a place for adding
-    # darwin-specific overlays and packages which could otherwise cause build
-    # failures on Linux systems.
-    #nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
-    digga.url = "github:divnix/digga";
-    digga.inputs.nixpkgs.follows = "nixos";
-    digga.inputs.nixlib.follows = "nixos";
-    digga.inputs.home-manager.follows = "home";
-    digga.inputs.deploy.follows = "deploy";
+    # Architecture
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    haumea.url = "github:nix-community/haumea";
+    easy-hosts.url = "github:tgirlcloud/easy-hosts";
 
-    # remove this when this PR is merged https://github.com/gytis-ivaskevicius/flake-utils-plus/pull/144
-    digga.inputs."flake-utils-plus".follows = "flake-utils-plus-fix";
-    "flake-utils-plus-fix".url =
-      "github:lordkekz/flake-utils-plus/b09bd64c0cfd54608f06d060c1a467a14cce2e85";
-
-    home.url = "github:nix-community/home-manager/release-23.11";
-    home.inputs.nixpkgs.follows = "nixos";
-
-    #darwin.url = "github:LnL7/nix-darwin";
-    #darwin.inputs.nixpkgs.follows = "nixpkgs-darwin-stable";
-
-    deploy.url = "github:serokell/deploy-rs";
-    deploy.inputs.nixpkgs.follows = "nixos";
-
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixos";
-
-    nvfetcher.url = "github:berberman/nvfetcher";
-    nvfetcher.inputs.nixpkgs.follows = "nixos";
-
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    # Developer Experience
+    devshell.url = "github:numtide/devshell";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
+  outputs =
+    {
+      self,
+      flake-parts,
+      haumea,
+      nixpkgs,
+      home-manager,
+      easy-hosts,
+      devshell,
+      treefmt-nix,
+      ...
+    }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { ... }:
+      let
+        load =
+          { src }:
+          args@{ pkgs, ... }:
+          let
+            i = builtins.removeAttrs (args // { inherit inputs; }) [ "self" ];
+          in
+          if (nixpkgs.lib.pathIsDirectory src) then
+            haumea.lib.load {
+              inherit src;
+              transformer = with haumea.lib.transformers; [
+                liftDefault
+                (hoistLists "_imports" "imports")
+              ];
+              loader = haumea.lib.loaders.scoped;
+              inputs = i;
+            }
+          else
+            haumea.lib.loaders.scoped i src;
+        multiLoad =
+          { dir }:
+          nixpkgs.lib.mapAttrs' (
+            name: _:
+            nixpkgs.lib.nameValuePair (nixpkgs.lib.removeSuffix ".nix" name) (load {
+              src = nixpkgs.lib.path.append dir name;
+            })
+          ) (builtins.removeAttrs (builtins.readDir dir) [ "default.nix" ]);
+      in
+      {
+        imports = [
+          easy-hosts.flakeModule
+          devshell.flakeModule
+          treefmt-nix.flakeModule
+        ];
 
-  outputs = { self, digga, nixos, home, nixos-hardware, nur, agenix, nvfetcher
-    , deploy, nixpkgs, nix-doom-emacs, ... }@inputs:
-    digga.lib.mkFlake {
-      inherit self inputs;
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
 
-      channelsConfig = { allowUnfree = true; };
+        perSystem =
+          { pkgs, ... }:
+          {
+            treefmt = {
+              programs.nixfmt.enable = true;
+              flakeFormatter = true;
+              projectRootFile = "flake.nix";
+            };
 
-      channels = {
-        nixos = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
-          overlays = [ ];
-        };
-        latest = { };
-      };
-
-      lib = import ./lib { lib = digga.lib // nixos.lib; };
-
-      sharedOverlays = [
-        (final: prev: {
-          __dontExport = true;
-          lib = prev.lib.extend (lfinal: lprev: { our = self.lib; });
-        })
-
-        nur.overlay
-        agenix.overlays.default
-        nvfetcher.overlays.default
-
-        (import ./pkgs)
-      ];
-
-      nixos = {
-        hostDefaults = {
-          system = "x86_64-linux";
-          channelName = "nixos";
-          imports = [ (digga.lib.importExportableModules ./modules) ];
-          modules = [
-            { lib.our = self.lib; }
-            digga.nixosModules.nixConfig
-            home.nixosModules.home-manager
-            agenix.nixosModules.age
-          ];
-        };
-
-        imports = [ (digga.lib.importHosts ./hosts) ];
-        hosts = {
-          # set host-specific properties here
-          NixOS = { };
-        };
-        importables = rec {
-          profiles = digga.lib.rakeLeaves ./profiles // {
-            users = digga.lib.rakeLeaves ./users;
+            devshells.default = {
+              commands = [
+                { package = pkgs.nix; }
+              ];
+            };
           };
-          suites = with profiles; rec {
-            base = [ core.nixos users.liquidzulu users.root ];
-          };
+
+        flake.profiles = {
+          nixos = multiLoad { dir = ./nixosProfiles; };
+          home = multiLoad { dir = ./homeProfiles; };
         };
-      };
 
-      home = {
-        imports = [ (digga.lib.importExportableModules ./users/modules) ];
-        modules = [ nix-doom-emacs.hmModule ];
-        importables = rec {
-          profiles = digga.lib.rakeLeaves ./users/profiles;
-          suites = with profiles; rec { base = [ direnv git ]; };
+        flake.suites = {
+          nixos =
+            let
+              inherit (self.profiles) nixos;
+            in
+            {
+              base = [
+                nixos.core
+                nixos.nix
+                nixos.cachix
+                nixos.liquidzulu
+                nixos.root
+              ];
+            };
+          home =
+            let
+              inherit (self.profiles) home;
+            in
+            {
+              base = [
+                home.direnv
+                home.git
+              ];
+            };
         };
-        users = {
-          # TODO: does this naming convention still make sense with darwin support?
-          #
-          # - it doesn't make sense to make a 'nixos' user available on
-          #   darwin, and vice versa
-          #
-          # - the 'nixos' user might have special significance as the default
-          #   user for fresh systems
-          #
-          # - perhaps a system-agnostic home-manager user is more appropriate?
-          #   something like 'primaryuser'?
-          #
-          # all that said, these only exist within the `hmUsers` attrset, so
-          # it could just be left to the developer to determine what's
-          # appropriate. after all, configuring these hm users is one of the
-          # first steps in customizing the template.
-          liquidzulu = { suites, profiles, ... }: {
-            imports = suites.base ++ (let inherit (profiles) doom; in [ doom ]);
 
-            home.stateVersion = "22.11";
+        easy-hosts =
+          let
+            inherit (self)
+              profiles
+              suites
+              ;
+          in
+          {
+            path = ./hosts;
+            onlySystem = "x86_64-linux";
+
+            shared = {
+              specialArgs = {
+                inherit inputs profiles suites;
+              };
+              modules = nixpkgs.lib.concatLists [
+                suites.nixos.base
+                [
+                  home-manager.nixosModules.home-manager
+                  {
+                    home-manager = {
+                      useGlobalPkgs = true;
+                      useUserPackages = true;
+                      users.liquidzulu =
+                        { lib, ... }:
+                        {
+                          imports = lib.concatLists [
+                            suites.home.base
+                            [ profiles.home.doom ]
+                          ];
+
+                          home.stateVersion = "22.11";
+                        };
+                    };
+                  }
+                ]
+              ];
+            };
+
+            hosts = {
+              NixOS = {
+                class = "nixos";
+              };
+              laptop = {
+                class = "nixos";
+              };
+            };
           };
-        }; # digga.lib.importers.rakeLeaves ./users/hm;
-      };
-
-      devshell = ./shell;
-
-      # TODO: similar to the above note: does it make sense to make all of
-      # these users available on all systems?
-      homeConfigurations =
-        digga.lib.mkHomeConfigurations self.nixosConfigurations;
-      #        digga.lib.mergeAny
-      #        (digga.lib.mkHomeConfigurations self.nixosConfigurations);
-
-      deploy.nodes = digga.lib.mkDeployNodes self.nixosConfigurations { };
-    };
+      }
+    );
 }
