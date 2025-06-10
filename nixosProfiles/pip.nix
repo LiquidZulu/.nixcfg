@@ -1,9 +1,4 @@
+{ config, lib, pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
-  environment.systemPackages = with pkgs; [ python39Packages.pip ];
+  #environment.systemPackages = with pkgs; [ python39Packages.pip ];
 }

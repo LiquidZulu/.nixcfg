@@ -8,13 +8,10 @@
 
   services = {
     displayManager.sddm.enable = true;
-    xserver = {
-
-      # Enable X11 windowing system
-      enable = true;
+    displayManager.sddm.wayland.enable = true;
 
       # Enable KDE Plasma desktop environment
-      desktopManager.plasma5.enable = true;
-    };
+      desktopManager.plasma6.enable = true;
+    
   };
 }

@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
 {
   # See https://nixos.wiki/wiki/Nvidia
@@ -17,15 +12,17 @@
       enable32Bit = true;
     };
 
+    #nvidia.package = null;
     nvidia = {
       modesetting.enable = true;
       powerManagement = {
         enable = false;
         finegrained = false;
       };
-      open = false;
+      open = true;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
+
     };
   };
 }

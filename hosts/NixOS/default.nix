@@ -1,12 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  suites,
-  profiles,
-  ...
-}:
-{
+{ config, lib, pkgs, suites, profiles, ... }: {
   imports = lib.concatLists [
     (with profiles.nixos; [
 
@@ -21,7 +13,7 @@
       audacity
       lmms
       blender
-      natron # broken right now, using distrobox instead
+      #natron # broken right now, using distrobox instead
 
       # Anything to do with git, ~except git itself which is users.profiles.git~
       git
@@ -130,9 +122,12 @@
   # Boot
   boot = {
 
+    kernelPackages = pkgs.linuxPackages_6_6;
+
     # sysctl settings
     kernel.sysctl = {
-      "vm.max_map_count" = 2147483642; # https://www.youtube.com/watch?v=PsHRbfZhgXM
+      "vm.max_map_count" =
+        2147483642; # https://www.youtube.com/watch?v=PsHRbfZhgXM
     };
 
     # Bootloader
@@ -170,21 +165,13 @@
       #   };
       # };
 
-      availableKernelModules = [
-        "xhci_pci"
-        "ahci"
-        "usbhid"
-        "usb_storage"
-        "sd_mod"
-      ];
+      availableKernelModules =
+        [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
       kernelModules = [ ];
     };
 
-    kernelModules = [
-      "kvm-amd"
-      "wl"
-    ];
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    kernelModules = [ "kvm-amd" "wl" ];
+    #extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
   };
 
   # Filesystems
@@ -204,6 +191,7 @@
 
   # Networking
   networking = {
+    #wireless.enable = true;
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
   };
@@ -285,7 +273,8 @@
   };
 
   # Hardware
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
