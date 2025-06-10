@@ -1,9 +1,3 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
-  environment.systemPackages = with pkgs; [ dolphin ];
+{ config, lib, pkgs, ... }: {
+  environment.systemPackages = with pkgs; [ kdePackages.dolphin ];
 }
