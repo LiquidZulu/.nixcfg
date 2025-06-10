@@ -76,10 +76,7 @@
       monospace = [ "DejaVu Sans Mono for Powerline" ];
       sansSerif = [ "DejaVu Sans" ];
     };
-    packages = with pkgs;
-      [ powerline-fonts dejavu_fonts ]
-      ++ builtins.filter lib.attrsets.isDerivation
-      (builtins.attrValues pkgs.nerd-fonts);
+    packages = with pkgs; [ powerline-fonts dejavu_fonts ];
   };
 
   programs.starship = {

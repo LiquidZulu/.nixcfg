@@ -122,7 +122,7 @@
   # Boot
   boot = {
 
-    kernelPackages = pkgs.linuxPackages_6_14;
+    kernelPackages = pkgs.linuxPackages_6_6;
 
     # sysctl settings
     kernel.sysctl = {
@@ -191,8 +191,8 @@
 
   # Networking
   networking = {
-    wireless.enable = true;
-    #networkmanager.enable = true;
+    #wireless.enable = true;
+    networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
   };
 
