@@ -1,10 +1,12 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
   ...
 }:
 {
+  imports = [ inputs.nix-doom-emacs.hmModule ];
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
@@ -67,12 +69,6 @@
     pandoc
 
     ### nix
-    nixfmt
-    nil
-    # rnix-lsp
-
-    ### org
-    graphviz
 
     ### rust
     rustc
@@ -104,7 +100,7 @@
 
   programs.doom-emacs = {
     enable = true;
-    doomPrivateDir = ./doom.d;
+    doomPrivateDir = ./_doom.d;
     emacsPackagesOverlay = self: super: {
       nushell-mode = self.trivialBuild {
         pname = "nushell-mode";

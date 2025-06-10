@@ -15,6 +15,10 @@
 
     # hm
     home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
     # Architecture
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -31,6 +35,7 @@
       flake-parts,
       haumea,
       nixpkgs,
+      home-manager,
       easy-hosts,
       devshell,
       treefmt-nix,
@@ -142,7 +147,25 @@
               };
               modules = nixpkgs.lib.concatLists [
                 suites.nixos.base
-                [ ]
+                [
+                  home-manager.nixosModules.home-manager
+                  {
+                    home-manager = {
+                      useGlobalPkgs = true;
+                      useUserPackages = true;
+                      users.liquidzulu =
+                        { lib, ... }:
+                        {
+                          imports = lib.concatLists [
+                            suites.home.base
+                            [ profiles.home.doom ]
+                          ];
+
+                          home.stateVersion = "22.11";
+                        };
+                    };
+                  }
+                ]
               ];
             };
 
