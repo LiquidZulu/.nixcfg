@@ -5,5 +5,5 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ ulauncher ];
+  environment.systemPackages = with pkgs; [ rofi-wayland ];
 }

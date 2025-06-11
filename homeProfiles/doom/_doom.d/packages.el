@@ -62,7 +62,7 @@
 (package! prettier-js)
 (package! fish-mode)
 (package! cython-mode)
-(package! nushell-mode :recipe (:host github :repo "mkkrp/nushell-mode"))
+;(package! nushell-mode :recipe (:host github :repo "mkkrp/nushell-mode"))
 ;(package! rustic)
 ;(straight-use-package
 ;  '(eaf

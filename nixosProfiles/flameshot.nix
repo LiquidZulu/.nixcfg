@@ -5,5 +5,5 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ flameshot ];
+  environment.systemPackages = with pkgs; [ watershot ];
 }

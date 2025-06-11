@@ -16,9 +16,6 @@
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
-
     # Architecture
     flake-parts.url = "github:hercules-ci/flake-parts";
     haumea.url = "github:nix-community/haumea";
@@ -114,6 +111,7 @@
                   home-manager.nixosModules.home-manager
                   {
                     home-manager = {
+                      backupFileExtension = "backup";
                       useGlobalPkgs = true;
                       useUserPackages = true;
                       users.liquidzulu =
@@ -125,6 +123,24 @@
                           ];
 
                           home.stateVersion = "22.11";
+                          home.sessionVariables = {
+                            XDG_CONFIG_HOME = "/home/liquidzulu/.config";
+                          };
+
+                          xdg = {
+                            enable = true;
+                            configHome = "/home/liquidzulu/.config";
+                            userDirs = {
+                              enable = true;
+                              createDirectories = true;
+                              desktop = "/home/liquidzulu/Desktop";
+                              documents = "/home/liquidzulu/Documents";
+                              download = "/home/liquidzulu/Downloads";
+                              music = "/home/liquidzulu/Music";
+                              pictures = "/home/liquidzulu/Pictures";
+                              videos = "/home/liquidzulu/Videos";
+                            };
+                          };
                         };
                     };
                   }
