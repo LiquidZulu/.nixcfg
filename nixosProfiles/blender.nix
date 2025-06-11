@@ -19,7 +19,7 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ (blender.override { cudaSupport = false; }) ];
+  environment.systemPackages = with pkgs; [ (blender.override { cudaSupport = true; }) ];
   # https://github.com/NixOS/nixpkgs/issues/7582
   #nixpkgs.config.packageOverrides = self: rec {
   #  blender = self.blender.override { cudaSupport = true; };
