@@ -99,6 +99,7 @@
       sqlite
       python
       rust
+      golang
 
       # Misc
       ledger
