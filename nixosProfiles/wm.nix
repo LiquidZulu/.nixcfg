@@ -10,8 +10,8 @@
     displayManager.sddm.enable = true;
     displayManager.sddm.wayland.enable = true;
 
-      # Enable KDE Plasma desktop environment
-      desktopManager.plasma6.enable = true;
-    
+    # Enable KDE Plasma desktop environment
+    desktopManager.plasma6.enable = true;
+
   };
 }

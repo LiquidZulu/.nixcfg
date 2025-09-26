@@ -1,7 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  # See https://nixos.wiki/wiki/Nvidia
+  # See "https://wiki.nixos.org/wiki/NVIDIA#Enabling"
+  # TODO: This is proprietary, but we use the open source driver. Maybe we can remove this and use the default?
   services.xserver.videoDrivers = [
     "nvidia" # https://github.com/NixOS/nixpkgs/issues/80936#issuecomment-1003784682
   ];
@@ -21,8 +27,6 @@
       };
       open = true;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-
     };
   };
 }

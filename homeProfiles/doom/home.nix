@@ -11,8 +11,7 @@ in
 {
   # Doom
   activation.installDoomEmacs = hm.dag.entryAfter [ "writeBoundary" ] ''
-    export XDG_CONFIG_HOME="/home/liquidzulu/.config"
-    if [ ! -d "$XDG_CONFIG_HOME/emacs" ]; then
+    if [ ! -d "''${XDG_CONFIG_HOME:=~/.config}/emacs" ]; then
        ${lib.getExe pkgs.git} clone $VERBOSE_ARG --depth=1 --single-branch \
            "https://github.com/doomemacs/doomemacs.git" \
            "$XDG_CONFIG_HOME/emacs"

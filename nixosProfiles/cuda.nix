@@ -9,4 +9,5 @@
     cudatoolkit
     cudnn
   ];
+  nixpkgs.config.cudaSupport = true;
 }

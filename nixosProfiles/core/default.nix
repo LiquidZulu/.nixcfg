@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   environment = {
     # Selection of sysadmin tools that can come in handy
     systemPackages = with pkgs; [
@@ -76,7 +82,10 @@
       monospace = [ "DejaVu Sans Mono for Powerline" ];
       sansSerif = [ "DejaVu Sans" ];
     };
-    packages = with pkgs; [ powerline-fonts dejavu_fonts ];
+    packages = with pkgs; [
+      powerline-fonts
+      dejavu_fonts
+    ];
   };
 
   programs.starship = {

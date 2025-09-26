@@ -35,23 +35,22 @@ in
     editorconfig-checker
   ];
 
-  commands =
-    [
-      (devos agenix)
-      {
-        category = "devos";
-        name = nvfetcher-bin.pname;
-        help = nvfetcher-bin.meta.description;
-        command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
-      }
+  commands = [
+    (devos agenix)
+    {
+      category = "devos";
+      name = nvfetcher-bin.pname;
+      help = nvfetcher-bin.meta.description;
+      command = "cd $PRJ_ROOT/pkgs; ${nvfetcher-bin}/bin/nvfetcher -c ./sources.toml $@";
+    }
 
-      (formatter treefmt)
-    ]
-    ++ lib.optionals (!pkgs.stdenv.buildPlatform.isi686) [
-      (devos cachix)
-    ]
-    ++ lib.optionals (pkgs.stdenv.hostPlatform.isLinux && !pkgs.stdenv.buildPlatform.isDarwin) [
-      (devos nixos-generators)
-      (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
-    ];
+    (formatter treefmt)
+  ]
+  ++ lib.optionals (!pkgs.stdenv.buildPlatform.isi686) [
+    (devos cachix)
+  ]
+  ++ lib.optionals (pkgs.stdenv.hostPlatform.isLinux && !pkgs.stdenv.buildPlatform.isDarwin) [
+    (devos nixos-generators)
+    (devos inputs.deploy.packages.${pkgs.system}.deploy-rs)
+  ];
 }

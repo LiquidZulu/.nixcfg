@@ -8,8 +8,8 @@
   };
   inputs = {
     # nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgsUnstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixos-25.05/nixexprs.tar.xz";
+    nixpkgsUnstable.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
 
     # hm
 
@@ -41,10 +41,13 @@
     flake-parts.lib.mkFlake { inherit inputs; } (
       { ... }:
       let
-        load = { src }:
+        load =
+          { src }:
           args@{ pkgs, ... }:
-          let i = builtins.removeAttrs (args // { inherit inputs; }) [ "self" ];
-          in if (nixpkgs.lib.pathIsDirectory src) then
+          let
+            i = builtins.removeAttrs (args // { inherit inputs; }) [ "self" ];
+          in
+          if (nixpkgs.lib.pathIsDirectory src) then
             haumea.lib.load {
               inherit src;
               transformer = with haumea.lib.transformers; [
@@ -56,29 +59,40 @@
             }
           else
             haumea.lib.loaders.scoped i src;
-        multiLoad = { dir }:
-          nixpkgs.lib.mapAttrs' (name: _:
-            nixpkgs.lib.nameValuePair (nixpkgs.lib.removeSuffix ".nix" name)
-            (load { src = nixpkgs.lib.path.append dir name; }))
-          (builtins.removeAttrs (builtins.readDir dir) [ "default.nix" ]);
-      in {
+        multiLoad =
+          { dir }:
+          nixpkgs.lib.mapAttrs' (
+            name: _:
+            nixpkgs.lib.nameValuePair (nixpkgs.lib.removeSuffix ".nix" name) (load {
+              src = nixpkgs.lib.path.append dir name;
+            })
+          ) (builtins.removeAttrs (builtins.readDir dir) [ "default.nix" ]);
+      in
+      {
         imports = [
           easy-hosts.flakeModule
           devshell.flakeModule
           treefmt-nix.flakeModule
         ];
 
-        systems = [ "x86_64-linux" "aarch64-linux" ];
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
 
-        perSystem = { pkgs, ... }: {
-          treefmt = {
-            programs.nixfmt.enable = true;
-            flakeFormatter = true;
-            projectRootFile = "flake.nix";
+        perSystem =
+          { pkgs, ... }:
+          {
+            treefmt = {
+              programs.nixfmt.enable = true;
+              flakeFormatter = true;
+              projectRootFile = "flake.nix";
+            };
+
+            devshells.default = {
+              commands = [ { package = pkgs.nix; } ];
+            };
           };
-
-          devshells.default = { commands = [{ package = pkgs.nix; }]; };
-        };
 
         flake.profiles = {
           nixos = multiLoad { dir = ./nixosProfiles; };
@@ -86,20 +100,38 @@
         };
 
         flake.suites = {
-          nixos = let inherit (self.profiles) nixos;
-          in {
-            base =
-              [ nixos.core nixos.nix nixos.cachix nixos.liquidzulu nixos.root ];
-          };
-          home = let inherit (self.profiles) home;
-          in { base = [ home.direnv home.git ]; };
+          nixos =
+            let
+              inherit (self.profiles) nixos;
+            in
+            {
+              base = [
+                nixos.core
+                nixos.nix
+                nixos.cachix
+                nixos.liquidzulu
+                nixos.root
+              ];
+            };
+          home =
+            let
+              inherit (self.profiles) home;
+            in
+            {
+              base = [
+                home.direnv
+                home.git
+              ];
+            };
         };
 
-        easy-hosts = let inherit (self) profiles suites;
-        in {
-          path = ./hosts;
-          onlySystem = "x86_64-linux";
-
+        easy-hosts =
+          let
+            inherit (self) profiles suites;
+          in
+          {
+            path = ./hosts;
+            onlySystem = "x86_64-linux";
 
             shared = {
               specialArgs = {
@@ -148,10 +180,15 @@
               ];
             };
 
-          hosts = {
-            NixOS = { class = "nixos"; };
-            laptop = { class = "nixos"; };
+            hosts = {
+              NixOS = {
+                class = "nixos";
+              };
+              laptop = {
+                class = "nixos";
+              };
+            };
           };
-        };
-      });
+      }
+    );
 }
