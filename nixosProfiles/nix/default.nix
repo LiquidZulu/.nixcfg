@@ -12,6 +12,7 @@
       allowed-users = [ "@wheel" ];
 
       auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
     };
 
     # Improve nix store disk usage

@@ -5,5 +5,8 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ thefuck ];
+  environment.systemPackages = with pkgs; [
+    #thefuck
+    pay-respects
+  ];
 }

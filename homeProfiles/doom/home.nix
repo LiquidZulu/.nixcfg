@@ -53,8 +53,9 @@ in
     ## :tools
     ### lsp
     unzip
-    python3Full
-    nodejs
+    #python3Full
+    python315
+    #nodejs
     nodePackages.npm
     nodePackages.prettier
 

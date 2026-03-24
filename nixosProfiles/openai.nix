@@ -5,5 +5,5 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ openai-whisper ];
+  #environment.systemPackages = with pkgs; [ openai-whisper ];
 }

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  unstablePkgs,
   ...
 }:
 {
@@ -10,5 +11,7 @@
     xsane
     sane-frontends
     sane-backends
+    unstablePkgs.scrcpy
+    android-tools
   ];
 }

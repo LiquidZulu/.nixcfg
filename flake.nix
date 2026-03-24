@@ -8,12 +8,12 @@
   };
   inputs = {
     # nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgsUnstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # hm
 
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Architecture
@@ -24,6 +24,9 @@
     # Developer Experience
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    # Watch Together
+    declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
   };
 
   outputs =
@@ -32,12 +35,29 @@
       flake-parts,
       haumea,
       nixpkgs,
+      nixpkgsUnstable,
       home-manager,
       easy-hosts,
       devshell,
       treefmt-nix,
+      declarative-jellyfin,
       ...
     }@inputs:
+    let
+      # Define nixpkgs-unstable with allowUnfree
+      unstablePkgs = import nixpkgsUnstable {
+        system = "x86_64-linux"; # Adjust for your system if needed
+        config = {
+          allowUnfree = true;
+          permittedInsecurePackages = [
+            "openssl-1.1.1v"
+            "electron-25.9.0"
+            "librewolf-bin-147.0.3-2"
+            "librewolf-bin-unwrapped-147.0.3-2"
+          ];
+        };
+      };
+    in
     flake-parts.lib.mkFlake { inherit inputs; } (
       { ... }:
       let
@@ -69,6 +89,16 @@
         ];
 
         systems = [ "x86_64-linux" "aarch64-linux" ];
+
+        # overlays = [
+        #   (final: prev: {
+        #     python313Packages = prev.python313Packages.overrideScope (pself: psuper: {
+        #       torch = psuper.torch-bin or psuper.pytorch-bin;  # use whichever exists in 25.11
+        #       torchvision = psuper.torchvision-bin or psuper.torchvision;
+        #       torchaudio   = psuper.torchaudio-bin or psuper.torchaudio;
+        #     });
+        #   })
+        # ];
 
         perSystem = { pkgs, ... }: {
           treefmt = {
@@ -103,11 +133,12 @@
 
             shared = {
               specialArgs = {
-                inherit inputs profiles suites;
+                inherit inputs profiles suites unstablePkgs;
               };
               modules = nixpkgs.lib.concatLists [
                 suites.nixos.base
                 [
+                  declarative-jellyfin.nixosModules.default
                   home-manager.nixosModules.home-manager
                   {
                     home-manager = {

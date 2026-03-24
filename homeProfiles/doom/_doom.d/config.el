@@ -138,6 +138,7 @@
 (setq
  normal-font (cl-find-if #'doom-font-exists-p
                          '(
+                           "FiraCode Nerd Font"
                            "mononoki"
                            "JetBrainsMono Nerd Font"
                            "NotoSerif Nerd Font"
@@ -145,6 +146,22 @@
 (setq
  doom-font      (font-spec :family normal-font :size 24)
  doom-big-font  (font-spec :family normal-font :size 32))
+
+(:after ligature
+  (ligature-set-ligatures 'prog-mode
+                          '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                            ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                            "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                            "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                            "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                            "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                            "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                            "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                            "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                            "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode t))
+
+(setq-default font-lock-maximum-decoration t)
 
 (setq org-export-headline-levels 512)
 
@@ -188,10 +205,14 @@
 
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
-(defun conf ()
+(defun econf ()
   "Go to config"
   (interactive)
-  (dired "~/.nixcfg/users/profiles/doom/doom.d"))
+  (dired "~/.nixcfg/homeProfiles/doom/_doom.d"))
+(defun dconf ()
+  "Go to config"
+  (interactive)
+  (dired "~/.nixcfg/homeProfiles/doom/_doom.d"))
 
 (defun sysconf ()
   "Go to system config"
@@ -415,6 +436,8 @@
 (setq auto-mode-alist
       (append '((".*\\.pyx\\'" . cython-mode))
               auto-mode-alist))
+
+(global-set-key (kbd "C-c C-S-c") 'mc/edit-lines)
 
 (require 'ox-json)
 

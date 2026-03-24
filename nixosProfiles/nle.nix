@@ -1,12 +1,13 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, inputs, unstablePkgs, ... }: {
   environment.systemPackages = (with pkgs; [
     #libsForQt5.kdenlive
-    (libsForQt5.kdenlive.overrideAttrs
-      (_: previousAttrs: { version = "22.08.3"; }))
+    # (libsForQt5.kdenlive.overrideAttrs
+    #   (_: previousAttrs: { version = "22.08.3"; }))
+    kdePackages.kdenlive
     glaxnimate
     mediainfo
     mlt
-    #davinci-resolve
+    davinci-resolve-studio
     ffmpeg
   ]);
 }

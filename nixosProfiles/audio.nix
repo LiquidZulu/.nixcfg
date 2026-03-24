@@ -11,5 +11,6 @@
     alsa-utils
     alsa-tools
     mpg123
+    audiowaveform
   ];
 }

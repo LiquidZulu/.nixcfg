@@ -6,7 +6,20 @@
     "nvidia" # https://github.com/NixOS/nixpkgs/issues/80936#issuecomment-1003784682
   ];
 
+  environment.systemPackages = with pkgs; [
+    cudatoolkit
+    clinfo
+    opencl-clhpp
+    ocl-icd
+  ];
+
   hardware = {
+
+    opengl.extraPackages = with pkgs; [
+      opencl-clhpp
+      ocl-icd
+    ];
+
     graphics = {
       enable = true;
       enable32Bit = true;

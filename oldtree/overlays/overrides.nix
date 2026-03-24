@@ -15,6 +15,24 @@ channels: final: prev: {
     deploy-rs
     ;
 
+    python312Packages = prev.python312Packages // {
+      pymatting = prev.python312Packages.pymatting.overridePythonAttrs (old: {
+        # Remove pyopencl to avoid OpenCL dependency
+        propagatedBuildInputs = prev.lib.filter (dep: dep != prev.python312Packages.pyopencl) old.propagatedBuildInputs;
+        # Add OpenCL libraries for potential runtime use
+        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [
+          prev.ocl-icd
+          prev.opencl-clhpp
+        ];
+        buildInputs = (old.buildInputs or []) ++ [
+          prev.ocl-icd
+          prev.opencl-clhpp
+        ];
+        # Explicitly disable tests
+        doCheck = false;
+      });
+    };
+
   # haskellPackages = prev.haskellPackages.override (old: {
   #   overrides = prev.lib.composeExtensions (old.overrides or (_: _: { }))
   #     (hfinal: hprev:

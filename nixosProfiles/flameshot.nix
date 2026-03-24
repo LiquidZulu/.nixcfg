@@ -5,5 +5,10 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ watershot ];
+  environment.systemPackages = with pkgs; [
+    flameshot
+    #watershot
+    grim
+    ksnip
+  ];
 }

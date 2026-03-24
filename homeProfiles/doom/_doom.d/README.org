@@ -205,6 +205,7 @@ Sets inline images to be 500 wide
 (setq
  normal-font (cl-find-if #'doom-font-exists-p
                          '(
+                           "FiraCode Nerd Font"
                            "mononoki"
                            "JetBrainsMono Nerd Font"
                            "NotoSerif Nerd Font"
@@ -212,6 +213,25 @@ Sets inline images to be 500 wide
 (setq
  doom-font      (font-spec :family normal-font :size 24)
  doom-big-font  (font-spec :family normal-font :size 32))
+#+end_src
+
+*** ligatures
+#+begin_src elisp
+(:after ligature
+  (ligature-set-ligatures 'prog-mode
+                          '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                            ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                            "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                            "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                            "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                            "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                            "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                            "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                            "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                            "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode t))
+
+(setq-default font-lock-maximum-decoration t)
 #+end_src
 
 ** Org settings
@@ -293,10 +313,14 @@ https://discourse.doomemacs.org/t/maximize-or-fullscreen-emacs-on-startup/135
 * Custom Commands
 ** Goto Doom Config
 #+begin_src elisp
-(defun conf ()
+(defun econf ()
   "Go to config"
   (interactive)
-  (dired "~/.nixcfg/users/profiles/doom/doom.d"))
+  (dired "~/.nixcfg/homeProfiles/doom/_doom.d"))
+(defun dconf ()
+  "Go to config"
+  (interactive)
+  (dired "~/.nixcfg/homeProfiles/doom/_doom.d"))
 #+end_src
 ** Goto System Config
 #+begin_src elisp
@@ -581,6 +605,10 @@ Enable prettier
               auto-mode-alist))
 #+end_src
 * Package Config
+** multiple-cursors
+#+begin_src elisp
+(global-set-key (kbd "C-c C-S-c") 'mc/edit-lines)
+#+end_src
 
 ** ox-json
 #+begin_src elisp

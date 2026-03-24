@@ -2,6 +2,8 @@
   imports = lib.concatLists [
     (with profiles.nixos; [
 
+      keyboard
+
       # Drivers
       gpu
       printer
@@ -13,6 +15,7 @@
       audacity
       lmms
       blender
+      image-processing
       #natron # broken right now, using distrobox instead
 
       # Anything to do with git, ~except git itself which is users.profiles.git~
@@ -111,6 +114,7 @@
       wine
       audio
       io
+      watch-together
     ])
     [
       #/etc/nixos/hardware-configuration.nix
@@ -171,9 +175,18 @@
       kernelModules = [ ];
     };
 
-    kernelModules = [ "kvm-amd" "wl" ];
-    #extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    kernelModules = [ "kvm-amd" "wl" "xpad" "v4l2loopback" ];
+    extraModulePackages = [
+      # config.boot.kernelPackages.broadcom_sta
+      config.boot.kernelPackages.v4l2loopback
+    ];
+
+    extraModprobeConfig = ''
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+    '';
   };
+
+  security.polkit.enable = true;
 
   # Filesystems
   fileSystems = {
@@ -256,6 +269,9 @@
   nixpkgs = {
 
     config = {
+
+      cudaSupport = true;
+
       # Allow unfree packages
       allowUnfree = true;
 
@@ -266,6 +282,8 @@
       permittedInsecurePackages = [
         "openssl-1.1.1v" # for some reason they are shipping an out of date openssl
         "electron-25.9.0"
+        "librewolf-bin-147.0.3-2"
+        "librewolf-bin-unwrapped-147.0.3-2"
       ];
     };
 
