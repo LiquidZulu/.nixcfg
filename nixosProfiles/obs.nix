@@ -17,7 +17,9 @@ in
 {
   programs.obs-studio.enableVirtualCamera = true;
 
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
+    streamcontroller
+  ] ++ [
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
         obs-livesplit-one

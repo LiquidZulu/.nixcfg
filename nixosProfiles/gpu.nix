@@ -3,6 +3,7 @@
 {
   # See https://nixos.wiki/wiki/Nvidia
   services.xserver.videoDrivers = [
+    "amdgpu"
     "nvidia" # https://github.com/NixOS/nixpkgs/issues/80936#issuecomment-1003784682
   ];
 
@@ -36,6 +37,14 @@
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
 
+      prime = {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        amdgpuBusId = "PCI:11@0:0:0";
+        nvidiaBusId  = "PCI:1@0:0:0";
+      };
     };
   };
 }

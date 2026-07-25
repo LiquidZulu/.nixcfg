@@ -5,6 +5,9 @@
   ...
 }:
 {
+
+  programs.firejail.enable = true;
+
   environment.systemPackages = with pkgs; [
 
     protonup-ng

@@ -8,12 +8,12 @@
   };
   inputs = {
     # nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgsUnstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # hm
 
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Architecture
@@ -27,6 +27,11 @@
 
     # Watch Together
     declarative-jellyfin.url = "github:Sveske-Juice/declarative-jellyfin";
+
+    comfyui-nix = {
+      url = "github:utensils/comfyui-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -41,6 +46,7 @@
       devshell,
       treefmt-nix,
       declarative-jellyfin,
+      comfyui-nix,
       ...
     }@inputs:
     let
@@ -138,6 +144,7 @@
               modules = nixpkgs.lib.concatLists [
                 suites.nixos.base
                 [
+                  comfyui-nix.nixosModules.default
                   declarative-jellyfin.nixosModules.default
                   home-manager.nixosModules.home-manager
                   {

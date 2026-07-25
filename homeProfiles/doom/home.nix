@@ -56,8 +56,8 @@ in
     #python3Full
     python315
     #nodejs
-    nodePackages.npm
-    nodePackages.prettier
+    nodejs
+    prettier
 
     ## :lang
     ### cc

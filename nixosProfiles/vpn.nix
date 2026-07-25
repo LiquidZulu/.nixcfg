@@ -13,10 +13,9 @@
   ];
 
   networking = {
-    firewall.checkReversePath = "loose";
-    networkmanager.enable = true;
     wg-quick.interfaces = {
       "ch-uk" = {
+        autostart = false;
         address = [ "10.2.0.2/32" ];
         privateKeyFile = "/home/liquidzulu/vpn/ch-uk.key";
         dns = [ "10.2.0.1" ];
@@ -30,16 +29,16 @@
           }
         ];
 
-        preUp = ''
-          ${pkgs.iproute2}/bin/ip rule add not from 10.2.0.2 table 100
-          ${pkgs.iproute2}/bin/ip route add table 100 0.0.0.0/0 via 10.2.0.1 dev ch-uk
-        '';
-        postDown = ''
-          ${pkgs.iproute2}/bin/ip rule del not from 10.2.0.2 table 100
-        '';
+        # preUp = ''
+        #   ${pkgs.iproute2}/bin/ip rule add not from 10.2.0.2 table 100
+        #   ${pkgs.iproute2}/bin/ip route add table 100 0.0.0.0/0 via 10.2.0.1 dev ch-uk
+        # '';
+        # postDown = ''
+        #   ${pkgs.iproute2}/bin/ip rule del not from 10.2.0.2 table 100
+        # '';
       };
     };
   };
 
-  systemd.services."wg-quick-ch-uk".wantedBy = [ "multi-user.target" ];
+  #systemd.services."wg-quick-ch-uk".wantedBy = [ "multi-user.target" ];
 }

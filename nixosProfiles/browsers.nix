@@ -7,7 +7,7 @@
 {
   environment.systemPackages = with pkgs; [
     chromium
-    librewolf-bin
+    firefox-bin
     tor-browser
     brave
     freetube

@@ -10,6 +10,7 @@
 
       # File editing
       gimp
+      krita
       writing
       nle
       audacity
@@ -115,6 +116,7 @@
       audio
       io
       watch-together
+      ai
     ])
     [
       #/etc/nixos/hardware-configuration.nix
@@ -205,10 +207,45 @@
 
   # Networking
   networking = {
-    #wireless.enable = true;
-    networkmanager.enable = true;
+
+    networkmanager = {
+      enable = true;
+      dns = lib.mkForce "systemd-resolved";
+      ensureProfiles.profiles = {
+        "eno1" = {
+          connection = {
+            id = "eno1";
+            type = "ethernet";
+            interface-name = "eno1";
+            autoconnect = true;
+            autoconnect-priority = 100;
+          };
+          uipv4 = {
+            method = "auto";
+            dns = "1.1.1.1,1.0.0.1,8.8.8.8";
+            may-fail = false;        # Don't allow IPv4 to fail
+            dns-search = "";
+          };
+          ipv6 = {
+            method = "auto";
+            addr-gen-mode = "stable-privacy";
+          };
+        };
+      };
+    };
+
+    # Global nameservers as fallback
+    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" ];
+
     useDHCP = lib.mkDefault true;
+    dhcpcd.enable = false;
+    firewall.checkReversePath = "loose";
+
+    enableIPv6 = true;
   };
+
+  # Optional but highly recommended for VPN + NM compatibility
+  services.resolved.enable = true;   # Cleaner DNS with VPNs
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";

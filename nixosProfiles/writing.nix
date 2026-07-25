@@ -12,5 +12,7 @@
     vim
     neovim
     obsidian
+    hexedit
+    okteta
   ];
 }
